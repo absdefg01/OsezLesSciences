@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE JDBC2JSON SYSTEM "jdbc2json.dtd"
+[
+	<!ENTITY host     "localhost">
+	<!ENTITY database "db_roulezchampo">
+	<!ENTITY user     "u_roulezchampo">
+	<!ENTITY password "l3!nf04!b1">
+]
+>
+<JDBC2JSON>   
+	<DRIVERSTRING>jdbc:mysql://&host;:3306/&database;?user=&user;&amp;password=&password;&amp;zeroDateTimeBehavior=convertToNull&amp;useServerPrepStmts=true</DRIVERSTRING>
+	<QUERY name="personnes">
+		SELECT * FROM Personnes
+	</QUERY>
+	<QUERY name="personneParLogin">
+		SELECT * FROM Personnes WHERE login = :login
+	</QUERY>
+</JDBC2JSON>

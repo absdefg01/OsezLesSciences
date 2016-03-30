@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Client JQuery</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<!-- On charge jQuery -->
+		<script	src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+		<!-- On charge le plugin JSONToTable https://github.com/jongha/jquery-jsontotable -->
+		<script type="text/javascript" 	src="js/jquery.jsontotable.min.js">
+		</script>
+		<script type="text/javascript" >
+			function callJSON() {
+				$.getJSON(
+					// L'url du web service
+					'jdbc2json/personnes', 
+					// La fonction qui traite les résultats
+					function(result) {
+                         //alert(result.records.length);
+						// On convertit les enregistrements en table HTML
+						$.jsontotable(result.records, {id: "#resultArea", header: false});
+					}
+				).fail( // Quoi faire en cas d'erreur
+					function(XMLHttpRequest, textStatus, errorThrown) {
+						alert(errorThrown +": " + XMLHttpRequest.responseText);
+					}
+				);
+			}
+		</script>
+		<!-- un CSS pour formatter la table -->
+		<link rel="stylesheet" type="text/css" href="css/tableformat.css">
+	</head>
+	<body>
+
+		<button type="button" onclick="callJSON();">List all customers</button><br/>
+		 
+		<h2>Processed template appears below:</h2>
+		<!-- La zone où les résultats vont s'afficher -->
+		<div id="resultArea"></div>
+	</body>
+</html>
