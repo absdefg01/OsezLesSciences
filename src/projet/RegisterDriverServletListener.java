@@ -11,7 +11,7 @@ import javax.servlet.ServletContextListener;
 
 import java.sql.Driver;
 
-/**
+/****
  * Web application lifecycle listener.
  * 
  * @author rbastide
