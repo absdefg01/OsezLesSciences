@@ -13,7 +13,7 @@ import java.sql.Driver;
 
 /****
  * Web application lifecycle listener.
- * 
+ * wang
  * @author rbastide
  */
 public class RegisterDriverServletListener implements ServletContextListener {
