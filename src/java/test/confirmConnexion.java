@@ -62,16 +62,7 @@ public class confirmConnexion extends HttpServlet {
             //sinon reentrer les identifiants
             if(login.equals(loginBD) && mdp.equals(mdpBD)){
                 conn.close();
-                //On écrit le résultat en HTML
-                out.println("<!DOCTYPE html>");
-                out.println("<html>");
-                out.println("<head>");
-                out.println("<title>confirmation de connexion</title>");            
-                out.println("</head>");
-                out.println("<body>");
-                out.println("réussir!!");
-                out.println("</body>");
-                out.println("</html>");
+                response.sendRedirect("creerCreneau.html");
             }else{
                 conn.close();
                 response.setContentType("text/html");  
@@ -81,11 +72,8 @@ public class confirmConnexion extends HttpServlet {
                 out.println("</script>");
             }
             
-            
             //On ferme la connection avec le serveur SQL
             rs.close();
-            
-            
                 
         }catch(SQLException ex){
             // On logge un message sur le serveur d'applicatiob

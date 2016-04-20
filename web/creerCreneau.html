@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Création de créneaux</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <meta name="description" content="" />
+        <meta name="keywords" content="" />
+    </head>
+    <body>
+        <center>
+        <h1>Création des créneaux</h1>
+        <form method="post" action="confirmCreer.java">
+            
+            date de Creneau <input type="date" name="date"><br>
+            heure de début <input type="time"  name="heureDebut"><br>
+            heure de fin <input type="time"  name="heureFin"><br>
+            nombre d'éleves maximum <input type="text" name="nbMax"><br>
+            matière <input type="text" name="matiere"><br>
+            enseignant <input type="text" name="enseignant"><br>
+            
+            <input type="submit" value="Valider">
+            <input type="reset" value="Effacer">
+        </form>
+        </center>
+    </body>
+</html>
