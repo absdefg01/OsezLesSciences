@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 /**
  * La configuration de l'applet est faite par des annotations de code au lieu de modifier le fichier web.xml
  * 
@@ -52,8 +53,13 @@ public class confirmConnexion extends HttpServlet {
             //mot de passe entrée par l'utilisateur;
             String mdp = request.getParameter("mdp");
             conn.close();
+            
+            /**
+             * connexion de gestionnaire
+             */
             //si login et mdp entrées par l'utilisateur sont corrects
             //connexion réussie
+            //sinon reentrer les identifiants
             if(login.equals(loginBD) && mdp.equals(mdpBD)){
                 conn.close();
                 //On écrit le résultat en HTML
@@ -68,17 +74,13 @@ public class confirmConnexion extends HttpServlet {
                 out.println("</html>");
             }else{
                 conn.close();
-                //On écrit le résultat en HTML
-                out.println("<!DOCTYPE html>");
-                out.println("<html>");
-                out.println("<head>");
-                out.println("<title>confirmation de connexion</title>");            
-                out.println("</head>");
-                out.println("<body>");
-                out.println("échec!!");
-                out.println("</body>");
-                out.println("</html>");
+                response.setContentType("text/html");  
+                out.println("<script type=\"text/javascript\">");  
+                out.println("alert('Identifiants Incorrects!!');");  
+                out.println("window.location.href = '../OsezLesSciences/index.html';");
+                out.println("</script>");
             }
+            
             
             //On ferme la connection avec le serveur SQL
             rs.close();
@@ -132,6 +134,7 @@ public class confirmConnexion extends HttpServlet {
     @Override
     public String getServletInfo() {
         return "Short description";
-    }// </editor-fold>
+    }
+// </editor-fold>
 
 }
