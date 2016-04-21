@@ -47,6 +47,8 @@ public class confirmCreation1 extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
         PrintWriter out = response.getWriter();  
         try{
             //On se connecte au serveur
@@ -74,14 +76,15 @@ public class confirmCreation1 extends HttpServlet {
             int nbP = rs.getInt("nbP");
             
             //l'identifiant de l'enseignant
-            int id;
             int idEnseignant;
             if(nbN == 0 && nbP == 0){
                 //retourner l'id d'enseignant
-                rs = stmt.executeQuery("select count(*) as nb from enseignant where upper(prenomEnseignant) = upper('"+prenom_enseignant+"')");
+                rs = stmt.executeQuery("select count(*) as nb from enseignant");
                 rs.next();
+                //nb d'enseignants dans BBD
                 idEnseignant = rs.getInt("nb");
-                idEnseignant++;
+                //id de nouveau enseignant qu'on veut ajouter
+                idEnseignant = idEnseignant + 1;
                 
                 //ajouter nouveau enseignant dans BDD
                 PreparedStatement editStatement = conn.prepareStatement(
@@ -108,17 +111,72 @@ public class confirmCreation1 extends HttpServlet {
                         + "and upper(prenomEnseignant) = upper('"+prenom_enseignant+"')");
                 rs.next();
                 
-                id = rs.getInt(1);
-                
-                out.println(id);
-                out.println(nom_enseignant);
-                out.println(prenom_enseignant);
+                idEnseignant = rs.getInt(1);
+                out.println("idEnseignant : "+idEnseignant);
+                out.println("nom Enseignant : "+nom_enseignant);
+                out.println("prenom enseigant : " + prenom_enseignant);
                 
             }
             
             /**
+             * mention
+             * 1 - stocker les mentions existant dans la BDD
+             * 2 - obtenir leurs leur IDs en utilisant leurs nom
+             */
+            String nom_mention = request.getParameter("mention");
+            //retourner l'id de la mention
+            rs = stmt.executeQuery("select idMention from mention "
+                    + "where upper(nommention) = upper('"+nom_mention+"')");
+            rs.next();
+            //id Mention
+            int idMention = rs.getInt(1);
+            out.println("idMention : " + idMention);
+            
+            /**
              * matiere
              */
+            int id_matiere;
+            String nom_matiere = request.getParameter("nom_matiere");
+            //vérifier si matiere est dans BBD
+            //si non, ajouter dans BDD
+            rs = stmt.executeQuery("select count(nomMatiere) as nb "
+                    + "from matiere where upper(nomMatiere) = upper('"+nom_matiere+"')");
+            rs.next();
+            //nb de matieres correspondants dans BDD
+            int nbM = rs.getInt("nb");
+            
+            //s'il n'y a pas
+            if(nbM==0){
+                //retourner l'id de matiere
+                rs = stmt.executeQuery("select count(*) as nb from matiere");
+                rs.next();
+                //nb total de matières existant dans BDD
+                id_matiere = rs.getInt("nb");
+                //id de nouveau matiere qu'on veut ajouter
+                id_matiere = id_matiere + 1;
+                
+                out.println("idMatiere : "+id_matiere);
+                //ajouter nouveau enseignant dans BDD
+                PreparedStatement editStatement = conn.prepareStatement(
+                                "INSERT into matiere VALUES (?,?,?)");
+                editStatement.setInt(1, id_matiere);
+                editStatement.setString(2, nom_matiere);
+                editStatement.setInt(3, idMention);
+                
+                editStatement.executeUpdate();
+                editStatement.close();
+                
+            }else{
+                rs = stmt.executeQuery("select * "
+                    + "from matiere "
+                        + "where upper(nomMatiere) = upper('"+nom_matiere+"')");
+                rs.next();
+                
+                id_matiere = rs.getInt(1);
+                out.println("idMatiere : "+ id_matiere);
+                out.println("nom matiere : "+nom_matiere);
+            }
+            
             
             //On ferme la connection avec le serveur SQL
             rs.close();
