@@ -61,10 +61,8 @@ public class confirmConnexion extends HttpServlet {
             //connexion réussie
             //sinon reentrer les identifiants
             if(login.equals(loginBD) && mdp.equals(mdpBD)){
-                conn.close();
-                response.sendRedirect("creerCreneau.html");
+                response.sendRedirect("creerCreneau1.html");
             }else{
-                conn.close();
                 response.setContentType("text/html");  
                 out.println("<script type=\"text/javascript\">");  
                 out.println("alert('Identifiants Incorrects!!');");  
