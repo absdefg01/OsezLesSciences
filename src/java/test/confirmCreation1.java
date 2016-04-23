@@ -267,7 +267,7 @@ public class confirmCreation1 extends HttpServlet {
 
             editStatement.executeUpdate();
             editStatement.close();
-            response.sendRedirect("creerCreneau2.html");
+            response.sendRedirect("listerCreneau.html");
             
             //On ferme la connection avec le serveur SQL
             rs.close();

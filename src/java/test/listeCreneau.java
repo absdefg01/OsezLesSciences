@@ -30,7 +30,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author zhaomengzi
  */
 @WebServlet(name = "confirmCreation2", urlPatterns = {"/confirmCreation2"})
-public class confirmCreation2 extends HttpServlet {
+public class listeCreneau extends HttpServlet {
     
     private static final String URL = "jdbc:derby://localhost:1527/oserlessciences";
     private static final String USERNAME = "mengzi";
@@ -67,7 +67,7 @@ public class confirmCreation2 extends HttpServlet {
             try {
                 date = new SimpleDateFormat("yyyy-MM-dd").parse(dateString);
             } catch (ParseException ex) {
-                Logger.getLogger(confirmCreation2.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(listeCreneau.class.getName()).log(Level.SEVERE, null, ex);
             }
             //java date to sql date
             //2 est index de parametre
