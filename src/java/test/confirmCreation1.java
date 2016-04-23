@@ -77,7 +77,7 @@ public class confirmCreation1 extends HttpServlet {
             
             //l'identifiant de l'enseignant
             int idEnseignant;
-            if(nbN == 0 && nbP == 0){
+            if(nbN == 0 || nbP == 0){
                 //retourner l'id d'enseignant
                 rs = stmt.executeQuery("select count(*) as nb from enseignant");
                 rs.next();
@@ -132,6 +132,7 @@ public class confirmCreation1 extends HttpServlet {
             int idMention = rs.getInt(1);
             out.println("idMention : " + idMention);
             
+            
             /**
              * matiere
              */
@@ -165,7 +166,6 @@ public class confirmCreation1 extends HttpServlet {
                 
                 editStatement.executeUpdate();
                 editStatement.close();
-                
             }else{
                 rs = stmt.executeQuery("select * "
                     + "from matiere "
@@ -177,6 +177,97 @@ public class confirmCreation1 extends HttpServlet {
                 out.println("nom matiere : "+nom_matiere);
             }
             
+
+            /**
+             * date
+             */
+            String dateCreneau = request.getParameter("date");
+            Date dateC = null;
+            java.sql.Date dateSql;
+            try {
+                dateC = new SimpleDateFormat("dd-mm-yy").parse(dateCreneau);
+                out.println("date : "+dateC);
+            } catch (ParseException ex) {
+                Logger.getLogger(confirmCreation1.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            dateSql = new java.sql.Date(dateC.getTime());            
+            
+
+            /**
+             * heureDebut heureFin
+             */
+            String timeDebut = request.getParameter("heureDebut");
+            String timeFin = request.getParameter("heureFin");
+            
+            Date date1 = null;
+            Date date2 = null;
+            try {
+                date1 = new SimpleDateFormat("HH:mm").parse(timeDebut);
+                date2 = new SimpleDateFormat("HH:mm").parse(timeFin);
+            }
+            catch (ParseException e) {
+                request.setAttribute("time_error", "Please enter time in format HH:mm");
+            } 
+            java.sql.Time time1 = new Time(date1.getTime());
+            java.sql.Time time2 = new Time(date2.getTime());
+            
+            
+            /**
+             * nb eleve max
+             */
+            String nbMax = request.getParameter("nbMax");
+            int nbMaxE = Integer.parseInt(nbMax);
+            
+            /**
+             * creneau
+             */
+            int id_creneau;
+            int i = 1;
+            //vérifier si matiere est dans BBD
+            //si non, ajouter dans BDD
+            //SELECT id, prenom, nom, CAST( date_ajout AS DATE ) AS date_ajout_cast, budget 
+//FROM client
+//            rs = stmt.executeQuery("select count(*) as nb, idCreneau,"
+//                    + "cast(dateCreneau as date) as date,heureDebut,"
+//                    + "heureFin,cast(nbEleveMax as int) as nbMaxE"
+//                    + " from creneau "
+//                    + "where date = cast('"+dateSql+"' as date)"
+//                    + " and heureDebut = '"+time1+"'"
+//                    + "and heureFin = '"+time2+"' "
+//                    + "and nbMaxE = cast('"+nbMaxE+"' as int");
+//            rs.next();
+//            out.println("<br>");
+//            int nbb = rs.getInt("nb");
+//            out.println(nbb);
+            
+            
+            
+            rs = stmt.executeQuery("select count(*) as nb from creneau");
+            rs.next();
+            
+            //nb de matieres correspondants dans BDD
+            int nbCreneau = rs.getInt("nb");
+            out.println(nbCreneau);
+
+            //id de nouveau matiere qu'on veut ajouter
+            id_creneau = nbCreneau + 1;
+                
+            //ajouter nouveau enseignant dans BDD
+            PreparedStatement editStatement = conn.prepareStatement(
+                        "INSERT into creneau VALUES (?,?,?,?,?,?,?)");
+            editStatement.setInt(1, id_creneau);
+            editStatement.setDate(2, dateSql);
+    //      editStatement.setTime(3, new Time(date1.getTime()));
+    //      editStatement.setTime(4, new Time(date2.getTime()));
+            editStatement.setTime(3, time1);
+            editStatement.setTime(4, time2);
+            editStatement.setInt(5, nbMaxE);
+            editStatement.setInt(6, id_matiere);
+            editStatement.setInt(7, idEnseignant);
+
+            editStatement.executeUpdate();
+            editStatement.close();
+            response.sendRedirect("creerCreneau2.html");
             
             //On ferme la connection avec le serveur SQL
             rs.close();

@@ -26,10 +26,13 @@ and open the template in the editor.
                 <option>Science de la vie</option>
             </SELECT>
             <br>
-            Matiere <input type="text"  name="nom_matiere"><br>
+            Matiere <input type="text"  name="nom_matiere" onchange='javascript:this.value=this.value.toUpperCase();'><br>
             Nom de l'enseignant <input type="text" name="nom_enseignant" onchange='javascript:this.value=this.value.toUpperCase();'><br>
             Prenom de l'enseignant <input type="text" name="prenom_enseignant" onchange='javascript:this.value=this.value.toUpperCase();'><br>
-
+            date de Creneau <input type="date" name="date"><br>
+            heure de début <input type="text"  name="heureDebut"><br>
+            heure de fin <input type="text"  name="heureFin"><br>
+            nombre d'éleves maximum <input type="text" name="nbMax"><br>
             <input type="submit" value="Suivant">
             <input type="reset" value="Effacer">
         </form>
