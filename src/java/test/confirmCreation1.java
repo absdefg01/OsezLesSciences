@@ -64,20 +64,19 @@ public class confirmCreation1 extends HttpServlet {
             String prenom_enseignant = request.getParameter("prenom_enseignant");
             //vérifier si enseignant est dans BBD
             //si non, ajouter dans BDD
-            ResultSet rs = stmt.executeQuery("select count(nomEnseignant) as nb "
-                    + "from enseignant where upper(nomEnseignant) = upper('"+nom_enseignant+"')");
+            ResultSet rs = stmt.executeQuery("select count(*) as nb "
+                        + "from enseignant "
+                            + "where upper(nomEnseignant) = upper('"+nom_enseignant+"')"
+                            + "and upper(prenomEnseignant) = upper('"+prenom_enseignant+"')");
             rs.next();
-            //nb de noms correspondants dans BDD
-            int nbN = rs.getInt("nb");
-            rs = stmt.executeQuery("select count(prenomEnseignant) as nbP "
-                    + "from enseignant where upper(prenomEnseignant) = upper('"+prenom_enseignant+"')");
-            rs.next();
+            
+            
             //nb de prénom correspondants dans BDD
-            int nbP = rs.getInt("nbP");
+            int nbEnseignant = rs.getInt("nb");
             
             //l'identifiant de l'enseignant
             int idEnseignant;
-            if(nbN == 0 || nbP == 0){
+            if(nbEnseignant == 0){
                 //retourner l'id d'enseignant
                 rs = stmt.executeQuery("select count(*) as nb from enseignant");
                 rs.next();
@@ -105,12 +104,11 @@ public class confirmCreation1 extends HttpServlet {
                 out.println("</body>");
                 out.println("</html>");
             }else{
-                rs = stmt.executeQuery("select * "
-                    + "from enseignant "
-                        + "where upper(nomEnseignant) = upper('"+nom_enseignant+"')"
-                        + "and upper(prenomEnseignant) = upper('"+prenom_enseignant+"')");
+                rs = stmt.executeQuery("select *"
+                            + "from enseignant "
+                            + "where upper(nomEnseignant) = upper('"+nom_enseignant+"')"
+                            + "and upper(prenomEnseignant) = upper('"+prenom_enseignant+"')");
                 rs.next();
-                
                 idEnseignant = rs.getInt(1);
                 out.println("idEnseignant : "+idEnseignant);
                 out.println("nom Enseignant : "+nom_enseignant);
@@ -267,7 +265,7 @@ public class confirmCreation1 extends HttpServlet {
 
             editStatement.executeUpdate();
             editStatement.close();
-            response.sendRedirect("listerCreneau.html");
+//            response.sendRedirect("listerCreneau.html");
             
             //On ferme la connection avec le serveur SQL
             rs.close();
