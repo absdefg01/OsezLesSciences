@@ -17,32 +17,34 @@ and open the template in the editor.
         <center>
         <h1>List des créneaux</h1>
         <form method="post" action="listeCreneau.java">
-            
-            <table>
+            <table border="1">
                 <tr>
-                   <th>Prénom</th>
-                   <th>Nom</th>
-                   <th>Profession</th>
+                   <th>IdCreneau</th>
+                   <th>Date</th>
+                   <th>HeureDebut</th>
+                   <th>HeureFin</th>
+                   <th>NbEleveMax</th>
+                   <th>Matiere</th>
+                   <th>Enseignant</th>
+                   <th></th>
                 </tr>
                 <tr>
-                   <td>Mike</td>
-                   <td>Stuntman</td>
-                   <td>Cascadeur</td>
+                   <td></td>
+                   <td></td>
+                   <td></td>
+                   <td></td>
+                   <td></td>
+                   <td></td>
+                   <td></td>
                 </tr>
-                <tr>
-                   <td>Mister</td>
-                   <td>Pink</td>
-                   <td>Gangster</td>
-                </tr>
+                
              </table>
-            date de Creneau <input type="date" name="date"><br>
-            heure de début <input type="time"  name="heureDebut"><br>
-            heure de fin <input type="time"  name="heureFin"><br>
-            nombre d'éleves maximum <input type="text" name="nbMax"><br>
             
+            <input type="submit" name="creation" value="Créer">
+            <input type="submit" name="modification" value="Modifier">
+            <input type="reset" name="suppression" value="supprimer">
+            <input type="reset" name="deconnexion" value="Déconnecter">
             
-            <input type="submit" value="Valider">
-            <input type="reset" value="Effacer">
         </form>
         </center>
     </body>
