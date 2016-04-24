@@ -29,7 +29,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author zhaomengzi
  */
-@WebServlet(name = "confirmCreation2", urlPatterns = {"/confirmCreation2"})
+@WebServlet(name = "listeCreneau", urlPatterns = {"/listeCreneau"})
 public class listeCreneau extends HttpServlet {
     
     private static final String URL = "jdbc:derby://localhost:1527/oserlessciences";
@@ -55,81 +55,10 @@ public class listeCreneau extends HttpServlet {
             Connection conn = DriverManager.getConnection(URL,USERNAME,PASSWORD);
             //On prépare une requête SQL
             Statement stmt = conn.createStatement();
-            PreparedStatement editStatement = conn.prepareStatement("INSERT into Creneau VALUES (null,?,?,?,?,?,?,?)");
-
-           
-            /**
-             * date
-             */
-            String dateString = request.getParameter("date");
-            //String to java date
-            Date date = null;
-            try {
-                date = new SimpleDateFormat("yyyy-MM-dd").parse(dateString);
-            } catch (ParseException ex) {
-                Logger.getLogger(listeCreneau.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            //java date to sql date
-            //2 est index de parametre
-            editStatement.setDate(2, new java.sql.Date(date.getTime()));
             
-            
-            /**
-             * heureDebut et heureFin
-             */
-            String heureDebutS = request.getParameter("heureDebut");
-            String heureFinS = request.getParameter("heureFin");
-            Date date2 = null;
-            Date date3 = null;
-            
-            try {
-                date2 = new SimpleDateFormat("HH:mm").parse(heureDebutS);
-                date3 = new SimpleDateFormat("HH:mm").parse(heureFinS);
-            }
-            catch (ParseException e) {
-                request.setAttribute("time_error", "Please enter time in format HH:mm");
-            }
-            
-            editStatement.setTime(3, new Time(date2.getTime()));
-            editStatement.setTime(4, new Time(date3.getTime()));
-            
-            
-            /**
-             * nbEleveMax
-             */
-            String nbEleveMax = request.getParameter("nbMax");
-            editStatement.setInt(5, Integer.parseInt(nbEleveMax));
-            
-            /**
-             * idMatiere
-             * 1 - vérifier si le matière existe dans la BD
-             * 2 - si oui, retourner l'idMatiere
-             *     si non, ajouter le matiere dans la BDD et retourner l'idMatiere
-             */
-            String nom_Matiere = request.getParameter("matiere");
-            ResultSet rs = stmt.executeQuery("select count(nomMatiere) as nb"
-                    + "from Matiere where nomMatiere = nom_Matiere");
-            int nb = rs.getInt("nb");
-            if(nb==0){
-                //insérer le mati
-                //insérer le matiere dans BDD
-                PreparedStatement editStatement2 = conn.prepareStatement("INSERT into Matiere VALUES (null,?,?)");
-                
-           
-            }else{
-            
-            }
-            
-            /**
-             * idEnseignant
-             */
-            
-            editStatement.executeUpdate();
 
             
             conn.close();
-
-            editStatement.close();
             
                      
         }catch(SQLException ex){

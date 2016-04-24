@@ -19,6 +19,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -94,15 +95,7 @@ public class confirmCreation1 extends HttpServlet {
                 
                 editStatement.executeUpdate();
                 editStatement.close();
-                out.println("<!DOCTYPE html>");
-                out.println("<html>");
-                out.println("<head>");
-                out.println("<title>Servlet DataBaseAccess</title>");            
-                out.println("</head>");
-                out.println("<body>");
-                out.println(idEnseignant);
-                out.println("</body>");
-                out.println("</html>");
+                
             }else{
                 rs = stmt.executeQuery("select *"
                             + "from enseignant "
@@ -110,9 +103,6 @@ public class confirmCreation1 extends HttpServlet {
                             + "and upper(prenomEnseignant) = upper('"+prenom_enseignant+"')");
                 rs.next();
                 idEnseignant = rs.getInt(1);
-                out.println("idEnseignant : "+idEnseignant);
-                out.println("nom Enseignant : "+nom_enseignant);
-                out.println("prenom enseigant : " + prenom_enseignant);
                 
             }
             
@@ -128,8 +118,7 @@ public class confirmCreation1 extends HttpServlet {
             rs.next();
             //id Mention
             int idMention = rs.getInt(1);
-            out.println("idMention : " + idMention);
-            
+           
             
             /**
              * matiere
@@ -154,7 +143,6 @@ public class confirmCreation1 extends HttpServlet {
                 //id de nouveau matiere qu'on veut ajouter
                 id_matiere = id_matiere + 1;
                 
-                out.println("idMatiere : "+id_matiere);
                 //ajouter nouveau enseignant dans BDD
                 PreparedStatement editStatement = conn.prepareStatement(
                                 "INSERT into matiere VALUES (?,?,?)");
@@ -171,8 +159,7 @@ public class confirmCreation1 extends HttpServlet {
                 rs.next();
                 
                 id_matiere = rs.getInt(1);
-                out.println("idMatiere : "+ id_matiere);
-                out.println("nom matiere : "+nom_matiere);
+                
             }
             
 
@@ -184,7 +171,7 @@ public class confirmCreation1 extends HttpServlet {
             java.sql.Date dateSql;
             try {
                 dateC = new SimpleDateFormat("dd-mm-yy").parse(dateCreneau);
-                out.println("date : "+dateC);
+                
             } catch (ParseException ex) {
                 Logger.getLogger(confirmCreation1.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -220,7 +207,6 @@ public class confirmCreation1 extends HttpServlet {
              * creneau
              */
             int id_creneau;
-            int i = 1;
             //vérifier si matiere est dans BBD
             //si non, ajouter dans BDD
             //SELECT id, prenom, nom, CAST( date_ajout AS DATE ) AS date_ajout_cast, budget 
@@ -245,8 +231,6 @@ public class confirmCreation1 extends HttpServlet {
             
             //nb de matieres correspondants dans BDD
             int nbCreneau = rs.getInt("nb");
-            out.println(nbCreneau);
-
             //id de nouveau matiere qu'on veut ajouter
             id_creneau = nbCreneau + 1;
                 
@@ -265,9 +249,86 @@ public class confirmCreation1 extends HttpServlet {
 
             editStatement.executeUpdate();
             editStatement.close();
-            response.sendRedirect("listerCreneau.html");
-            
+//            response.sendRedirect("listeCreneau.jsp");
+//            RequestDispatcher dispatcher = request.getRequestDispatcher("listeCreneau.java");
+//            dispatcher.forward(request, response);
             //On ferme la connection avec le serveur SQL
+            
+            
+            
+            /**
+             * afficher des liste de créneau
+             */
+            //obtenir le nb de créneau
+            rs = stmt.executeQuery("select count(*) as nb from creneau ");
+            rs.next();
+            int nbDeCreneau = rs.getInt("nb");
+            
+            
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet DataBaseAccess</title>");            
+            out.println("</head>");
+            
+            out.println("<body>");
+            out.println("<h1>liste des créneau</h1>");
+            
+            out.println("<table border=\"1\">");
+                out.println("<tr>");
+                    out.println("<th>IdCreneau</th>");
+                    out.println("<th>Date</th>");
+                    out.println("<th>HeureDebut</th>");
+                    out.println("<th>HeureFin</th>");
+                    out.println("<th>NbEleveMax</th>");
+                    out.println("<th>Matiere</th>");
+                    out.println("<th>NomEnseignant</th>");
+                    out.println("<th>PreomEnseignant</th>");
+//                    out.println("<th>case à cocher</th>");
+                for(int i = 1; i<= nbDeCreneau; i++){
+                    //obtenir les colonne de créneau
+                    rs = stmt.executeQuery("select * from creneau "
+                            + "where idCreneau = cast('"+i+"' as Integer)");
+                    rs.next();
+                    String idCreneauH = rs.getString(1);
+                    String dateCreneauH = rs.getString(2);
+                    String heureDebutH = rs.getString(3);
+                    String heureFinH = rs.getString(4);
+                    String nbEleveMaxH = rs.getString(5);
+                    
+                    rs = stmt.executeQuery("SELECT * FROM matiere m, creneau c\n" +
+                        "where m.IDMATIERE = c.IDMATIERE\n" +
+                        "and c.IDCRENEAU = cast('"+i+"' as Integer)");
+                    rs.next();
+                    String nomMatiereH = rs.getString(2);
+                    
+                    rs = stmt.executeQuery("SELECT * FROM enseignant e, creneau c\n" +
+                        "where e.idEnseignant = c.idEnseignant\n" +
+                        "and c.IDCRENEAU = cast('"+i+"' as Integer)");
+                    rs.next();
+                    String nomEnseignantH = rs.getString(2);
+                    String prenomEnseignantH = rs.getString(3);
+                    
+                out.println("<tr>");
+                    out.println("<td>"+idCreneauH+"</td>");
+                    out.println("<td>"+dateCreneauH+"</td>");
+                    out.println("<td>"+heureDebutH+"</td>");
+                    out.println("<td>"+heureFinH+"</td>");
+                    out.println("<td>"+nbEleveMaxH+"</td>");
+                    out.println("<td>"+nomMatiereH+"</td>");
+                    out.println("<td>"+nomEnseignantH+"</td>");
+                    out.println("<td>"+prenomEnseignantH+"</td>");
+//                    out.println("<td><INPUT type=\"checkbox\" name=\"choix1\" value=\"1\"></td>");
+                out.println("</tr>");
+                }
+            out.println("</table>");
+            
+            out.println("<form method='post' action='gererCreneau.html'>");
+            out.println("<input type='submit' name='retourner' value='retourner'>");
+            out.println("</form>");
+            
+            out.println("</body>");
+            out.println("</html>");
             rs.close();
             conn.close();
             
