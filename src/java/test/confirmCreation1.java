@@ -226,13 +226,12 @@ public class confirmCreation1 extends HttpServlet {
             
             
             
-            rs = stmt.executeQuery("select count(*) as nb from creneau");
+            rs = stmt.executeQuery("select max(idCreneau)  from creneau");
             rs.next();
             
-            //nb de matieres correspondants dans BDD
-            int nbCreneau = rs.getInt("nb");
+            int idCreneauMax = rs.getInt(1);
             //id de nouveau matiere qu'on veut ajouter
-            id_creneau = nbCreneau + 1;
+            id_creneau = idCreneauMax + 1;
                 
             //ajouter nouveau enseignant dans BDD
             PreparedStatement editStatement = conn.prepareStatement(
