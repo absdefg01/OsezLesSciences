@@ -235,7 +235,7 @@ public class confirmCreation1 extends HttpServlet {
                 
             //ajouter nouveau enseignant dans BDD
             PreparedStatement editStatement = conn.prepareStatement(
-                        "INSERT into creneau VALUES (?,?,?,?,?,?,?,?)");
+                        "INSERT into creneau VALUES (?,?,?,?,?,?,?)");
             editStatement.setInt(1, id_creneau);
             editStatement.setDate(2, dateSql);
     //      editStatement.setTime(3, new Time(date1.getTime()));
@@ -245,7 +245,6 @@ public class confirmCreation1 extends HttpServlet {
             editStatement.setInt(5, nbMaxE);
             editStatement.setInt(6, id_matiere);
             editStatement.setInt(7, idEnseignant);
-            editStatement.setInt(8, 0);
             editStatement.executeUpdate();
             editStatement.close();
 //            response.sendRedirect("listeCreneau.jsp");
@@ -294,9 +293,9 @@ public class confirmCreation1 extends HttpServlet {
                     String heureDebutH = rs.getString(3);
                     String heureFinH = rs.getString(4);
                     String nbEleveMaxH = rs.getString(5);
-                    String nomMatiereH = rs.getString(10);
-                    String nomEnseignantH = rs.getString(13);
-                    String prenomEnseignantH = rs.getString(14);
+                    String nomMatiereH = rs.getString(9);
+                    String nomEnseignantH = rs.getString(12);
+                    String prenomEnseignantH = rs.getString(13);
 
                 out.println("<tr>");
                     out.println("<td>"+idCreneauH+"</td>");
