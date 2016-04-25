@@ -9,14 +9,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Time;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -29,9 +23,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author zhaomengzi
  */
-@WebServlet(name = "listeCreneau", urlPatterns = {"/listeCreneau"})
-public class listeCreneau extends HttpServlet {
-    
+@WebServlet(name = "confirmModifier", urlPatterns = {"/confirmModifier"})
+public class confirmModifier extends HttpServlet {
     private static final String URL = "jdbc:derby://localhost:1527/oserlessciences";
     private static final String USERNAME = "mengzi";
     private static final String PASSWORD = "397949844";
@@ -48,7 +41,9 @@ public class listeCreneau extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        PrintWriter out = response.getWriter();  
         
         try{
             //On se connecte au serveur
@@ -56,11 +51,7 @@ public class listeCreneau extends HttpServlet {
             //On prépare une requête SQL
             Statement stmt = conn.createStatement();
             
-
-            
             conn.close();
-            
-                     
         }catch(SQLException ex){
             // On logge un message sur le serveur d'applicatiob
             Logger.getLogger(confirmConnexion.class.getName()).log(Level.SEVERE, null, ex);

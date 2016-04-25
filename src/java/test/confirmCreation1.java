@@ -56,7 +56,7 @@ public class confirmCreation1 extends HttpServlet {
             Connection conn = DriverManager.getConnection(URL,USERNAME,PASSWORD);
             //On prépare une requête SQL
             Statement stmt = conn.createStatement();
-            //String mention = request.getParameter("mention");
+
             
             /**
              * enseignant
@@ -236,7 +236,7 @@ public class confirmCreation1 extends HttpServlet {
                 
             //ajouter nouveau enseignant dans BDD
             PreparedStatement editStatement = conn.prepareStatement(
-                        "INSERT into creneau VALUES (?,?,?,?,?,?,?)");
+                        "INSERT into creneau VALUES (?,?,?,?,?,?,?,?)");
             editStatement.setInt(1, id_creneau);
             editStatement.setDate(2, dateSql);
     //      editStatement.setTime(3, new Time(date1.getTime()));
@@ -246,7 +246,7 @@ public class confirmCreation1 extends HttpServlet {
             editStatement.setInt(5, nbMaxE);
             editStatement.setInt(6, id_matiere);
             editStatement.setInt(7, idEnseignant);
-
+            editStatement.setInt(8, 0);
             editStatement.executeUpdate();
             editStatement.close();
 //            response.sendRedirect("listeCreneau.jsp");
@@ -260,10 +260,6 @@ public class confirmCreation1 extends HttpServlet {
              * afficher des liste de créneau
              */
             //obtenir le nb de créneau
-            rs = stmt.executeQuery("select count(*) as nb from creneau ");
-            rs.next();
-            int nbDeCreneau = rs.getInt("nb");
-            
             
             out.println("<!DOCTYPE html>");
             out.println("<html>");
@@ -285,30 +281,24 @@ public class confirmCreation1 extends HttpServlet {
                     out.println("<th>NomEnseignant</th>");
                     out.println("<th>PreomEnseignant</th>");
 //                    out.println("<th>case à cocher</th>");
-                for(int i = 1; i<= nbDeCreneau; i++){
-                    //obtenir les colonne de créneau
-                    rs = stmt.executeQuery("select * from creneau "
-                            + "where idCreneau = cast('"+i+"' as Integer)");
-                    rs.next();
+                out.println("</tr>");
+
+                //obtenir les colonne de créneau
+                    rs = stmt.executeQuery("SELECT * FROM  creneau c \n" +
+"    INNER JOIN  matiere m ON c.IDMATIERE = m.IDMATIERE \n" +
+"    inner join enseignant e on c.IDENSEIGNANT = e.IDENSEIGNANT");
+                
+                    
+                while(rs.next()){
                     String idCreneauH = rs.getString(1);
                     String dateCreneauH = rs.getString(2);
                     String heureDebutH = rs.getString(3);
                     String heureFinH = rs.getString(4);
                     String nbEleveMaxH = rs.getString(5);
-                    
-                    rs = stmt.executeQuery("SELECT * FROM matiere m, creneau c\n" +
-                        "where m.IDMATIERE = c.IDMATIERE\n" +
-                        "and c.IDCRENEAU = cast('"+i+"' as Integer)");
-                    rs.next();
-                    String nomMatiereH = rs.getString(2);
-                    
-                    rs = stmt.executeQuery("SELECT * FROM enseignant e, creneau c\n" +
-                        "where e.idEnseignant = c.idEnseignant\n" +
-                        "and c.IDCRENEAU = cast('"+i+"' as Integer)");
-                    rs.next();
-                    String nomEnseignantH = rs.getString(2);
-                    String prenomEnseignantH = rs.getString(3);
-                    
+                    String nomMatiereH = rs.getString(10);
+                    String nomEnseignantH = rs.getString(13);
+                    String prenomEnseignantH = rs.getString(14);
+
                 out.println("<tr>");
                     out.println("<td>"+idCreneauH+"</td>");
                     out.println("<td>"+dateCreneauH+"</td>");
@@ -318,10 +308,17 @@ public class confirmCreation1 extends HttpServlet {
                     out.println("<td>"+nomMatiereH+"</td>");
                     out.println("<td>"+nomEnseignantH+"</td>");
                     out.println("<td>"+prenomEnseignantH+"</td>");
+                    
+                    
 //                    out.println("<td><INPUT type=\"checkbox\" name=\"choix1\" value=\"1\"></td>");
                 out.println("</tr>");
                 }
             out.println("</table>");
+            
+            out.println("<form method='post' action='confirmModifier.java'>");
+            out.println("<input type='submit' name='modifier' value='modifier'>");
+            out.println("</form>");
+            
             
             out.println("<form method='post' action='gererCreneau.html'>");
             out.println("<input type='submit' name='retourner' value='retourner'>");
