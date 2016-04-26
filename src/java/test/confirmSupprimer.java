@@ -9,10 +9,13 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -23,12 +26,12 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author zhaomengzi
  */
-@WebServlet(name = "confirmModifier", urlPatterns = {"/confirmModifier"})
-public class confirmModifier extends HttpServlet {
+@WebServlet(name = "confirmSupprimer", urlPatterns = {"/confirmSupprimer"})
+public class confirmSupprimer extends HttpServlet {
     private static final String URL = "jdbc:derby://localhost:1527/oserlessciences";
     private static final String USERNAME = "mengzi";
     private static final String PASSWORD = "397949844";
-    
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -45,15 +48,44 @@ public class confirmModifier extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         PrintWriter out = response.getWriter();  
         
+        
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Supression</title>"); 
+            
+            out.println("</head>");
+            
+            out.println("<body>");
+            out.println("<form method='post' action='gererCreneau.html'>");
+            out.println("<input type='submit' name='retourner' value='retourner'>");
+            out.println("</form>");
+            
+            out.println("</body>");
+            out.println("</html>");
+            
+            
         try{
             //On se connecte au serveur
             Connection conn = DriverManager.getConnection(URL,USERNAME,PASSWORD);
             //On prépare une requête SQL
+            
             Statement stmt = conn.createStatement();
             
-            String checkbox = request.getParameter("choix1");
-            
-            out.println(checkbox);
+            //suppression de créneau
+            String[] checkbox = request.getParameterValues("choix1");
+            PreparedStatement editStatement = null;
+            for(int i = 0; i<= checkbox.length; i++){
+                int value = Integer.parseInt(checkbox[i]);
+                editStatement = conn.prepareStatement(
+                                "delete from creneau where idCreneau = ?");
+                editStatement.setInt(1, value);
+                
+                editStatement.executeUpdate();
+                
+            }
+            editStatement.close();
+
             conn.close();
         }catch(SQLException ex){
             // On logge un message sur le serveur d'applicatiob

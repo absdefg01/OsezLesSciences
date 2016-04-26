@@ -57,15 +57,12 @@ public class modifierCreneau extends HttpServlet {
             /**
              * afficher des liste de créneau
              */
-            //obtenir le nb de créneau
-            ResultSet rs = stmt.executeQuery("select count(*) as nb from creneau ");
-            rs.next();
-            int nbDeCreneau = rs.getInt("nb");
             
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet DataBaseAccess</title>");            
+            out.println("<title>Servlet DataBaseAccess</title>"); 
+            
             out.println("</head>");
             
             out.println("<body>");
@@ -84,32 +81,22 @@ public class modifierCreneau extends HttpServlet {
                     out.println("<th>case à cocher</th>");
                  out.println("</tr>");
                  
-                 for(int i = 1; i<= nbDeCreneau; i++){
-                    //obtenir les colonne de créneau
-                    rs = stmt.executeQuery("select * from creneau "
-                            + "where idCreneau = cast('"+i+"' as Integer)");
-                    rs.next();
+                 //obtenir les colonne de créneau
+                 ResultSet rs = stmt.executeQuery("SELECT * FROM  creneau c \n" +
+"    INNER JOIN  matiere m ON c.IDMATIERE = m.IDMATIERE \n" +
+"    inner join enseignant e on c.IDENSEIGNANT = e.IDENSEIGNANT");
+                
+                    
+                while(rs.next()){
                     String idCreneauH = rs.getString(1);
                     String dateCreneauH = rs.getString(2);
                     String heureDebutH = rs.getString(3);
                     String heureFinH = rs.getString(4);
                     String nbEleveMaxH = rs.getString(5);
-                    //visibilite : 1 - supprimer 2 - non supprimer
-                    rs = stmt.executeQuery("SELECT * FROM matiere m, creneau c\n" +
-                        "where m.IDMATIERE = c.IDMATIERE\n" +
-                        "and c.IDCRENEAU = cast('"+i+"' as Integer)"
-                            + "and c.visibilite = 0");
-                    rs.next();
-                    String nomMatiereH = rs.getString(2);
-                    
-                    rs = stmt.executeQuery("SELECT * FROM enseignant e, creneau c\n" +
-                        "where e.idEnseignant = c.idEnseignant\n" +
-                        "and c.IDCRENEAU = cast('"+i+"' as Integer)"
-                            + "and c.visibilite = 0");
-                    rs.next();
-                    String nomEnseignantH = rs.getString(2);
-                    String prenomEnseignantH = rs.getString(3);
-                    
+                    String nomMatiereH = rs.getString(9);
+                    String nomEnseignantH = rs.getString(12);
+                    String prenomEnseignantH = rs.getString(13);
+
                 out.println("<tr>");
                     out.println("<td>"+idCreneauH+"</td>");
                     out.println("<td>"+dateCreneauH+"</td>");
@@ -119,19 +106,24 @@ public class modifierCreneau extends HttpServlet {
                     out.println("<td>"+nomMatiereH+"</td>");
                     out.println("<td>"+nomEnseignantH+"</td>");
                     out.println("<td>"+prenomEnseignantH+"</td>");
-                    out.println("<td><INPUT type=\"checkbox\" name=\"choix1\" value=\"1\"></td>");
+                    out.println("<form method='post' action='confirmModifier'>");
+                    out.println("<td><INPUT type='checkbox' name='choix1' value='1'></td>");
+
                 out.println("</tr>");
                 }
             out.println("</table>");
             
-            out.println("<form method='post' action='confirmModifier.java'>");
             out.println("<input type='submit' name='modifier' value='modifier'>");
             out.println("</form>");
+            
             
             out.println("<form method='post' action='gererCreneau.html'>");
             out.println("<input type='submit' name='retourner' value='retourner'>");
             out.println("</form>");
-                    
+            
+            out.println("</body>");
+            out.println("</html>");
+            rs.close();
             conn.close();
             
             
