@@ -7,12 +7,16 @@ package test;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import static java.lang.String.format;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -53,7 +57,7 @@ public class confirmModifier extends HttpServlet {
             //On prépare une requête SQL
             Statement stmt = conn.createStatement();
             
-            //checkbox contient l'idCreneau
+            //checkbox contient l   'idCreneau
             String[] checkbox = request.getParameterValues("choix1");
             int value = Integer.parseInt(checkbox[0]);
             ResultSet rs = stmt.executeQuery("SELECT * FROM  creneau c INNER JOIN  matiere m ON c.IDMATIERE = m.IDMATIERE inner join enseignant e on c.IDENSEIGNANT = e.IDENSEIGNANT where c.IDCRENEAU = cast('"+value+"' as Integer)");
@@ -68,6 +72,17 @@ public class confirmModifier extends HttpServlet {
             String heureFinH = rs.getString(4);
             String nbEleveMaxH = rs.getString(5);
             
+            
+            Date date = null;
+            try {
+                date = new SimpleDateFormat("yy-mm-dd").parse(dateCreneauH);
+            } catch (ParseException ex) {
+                Logger.getLogger(confirmModifier.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+	    SimpleDateFormat format = new SimpleDateFormat("dd-M-yyyy");
+            String dateCreneauN = format.format(date);
+           
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
@@ -93,7 +108,7 @@ public class confirmModifier extends HttpServlet {
             out.println("Matiere <input type=\"text\"  name=\"nom_matiere\"  value='"+nomMatiereH+"' onchange='javascript:this.value=this.value.toUpperCase();'><br>");
             out.println("Nom de l'enseignant <input type=\"text\" name=\"nom_enseignant\" value='"+nomEnseignantH+"'  onchange='javascript:this.value=this.value.toUpperCase();'><br>\n");
             out.println("Prenom de l'enseignant <input type=\"text\" name=\"prenom_enseignant\" value='"+prenomEnseignantH+"' onchange='javascript:this.value=this.value.toUpperCase();'><br>\n");
-            out.println("date de Creneau <input type=\"date\" name=\"date\" value='"+dateCreneauH+"'><br>\n");
+            out.println("date de Creneau <input type=\"date\" name=\"date\" value='"+dateCreneauN+"'><br>\n");
             out.println("heure de début <input type=\"text\"  name=\"heureDebut\" value='"+heureDebutH+"' ><br>\n");
             out.println(" heure de fin <input type=\"text\"  name=\"heureFin\" value='"+heureFinH+"'><br>\n");
             out.println("nombre d'éleves maximum <input type=\"text\" name=\"nbMax\" value='"+nbEleveMaxH+"'><br>\n");
