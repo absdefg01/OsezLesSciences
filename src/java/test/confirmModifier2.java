@@ -142,6 +142,7 @@ public class confirmModifier2 extends HttpServlet {
             out.println("<h1>Servlet confirmModifier2 at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
+            response.sendRedirect("../OsezLesSciences/modifierCreneau");
         }catch(SQLException ex){
             // On logge un message sur le serveur d'applicatiob
             Logger.getLogger(confirmConnexion.class.getName()).log(Level.SEVERE, null, ex);
