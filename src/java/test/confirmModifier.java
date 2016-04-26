@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
@@ -51,9 +53,56 @@ public class confirmModifier extends HttpServlet {
             //On prépare une requête SQL
             Statement stmt = conn.createStatement();
             
-            String checkbox = request.getParameter("choix1");
+            //checkbox contient l'idCreneau
+            String[] checkbox = request.getParameterValues("choix1");
+            int value = Integer.parseInt(checkbox[0]);
+            ResultSet rs = stmt.executeQuery("SELECT * FROM  creneau c INNER JOIN  matiere m ON c.IDMATIERE = m.IDMATIERE inner join enseignant e on c.IDENSEIGNANT = e.IDENSEIGNANT where c.IDCRENEAU = cast('"+value+"' as Integer)");
+            rs.next();
             
-            out.println(checkbox);
+            String idCreneauH = rs.getString(1);
+            String nomMatiereH = rs.getString(9);
+            String nomEnseignantH = rs.getString(12);
+            String prenomEnseignantH = rs.getString(13);
+            String dateCreneauH = rs.getString(2);
+            String heureDebutH = rs.getString(3);
+            String heureFinH = rs.getString(4);
+            String nbEleveMaxH = rs.getString(5);
+            
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet DataBaseAccess</title>"); 
+            
+            out.println("</head>");
+            
+            out.println("<body>");
+            out.println("<center>");
+
+            out.println("<h1>modifier des créneaux</h1>");
+            out.println("<form method=\"post\" action=\"confirmModifier2\">\n");
+            
+            out.println("Mention <SELECT name=\"mention\" size=\"1\">\n" +
+"                <OPTION>Informatique</option>\n" +
+"                <OPTION>Mathématique</option>\n" +
+"                <OPTION>ElectroniqueEnergieélectriqueetAutomatique</OPTION>   \n" +
+"                <option>Physique - Chimie</option>\n" +
+"                <option>Science de la vie</option>\n" +
+"            </SELECT>\n" +
+"            <br>");
+            out.println("<input type='hidden' name='id' value='"+idCreneauH+"' >");
+            out.println("Matiere <input type=\"text\"  name=\"nom_matiere\"  value='"+nomMatiereH+"' onchange='javascript:this.value=this.value.toUpperCase();'><br>");
+            out.println("Nom de l'enseignant <input type=\"text\" name=\"nom_enseignant\" value='"+nomEnseignantH+"'  onchange='javascript:this.value=this.value.toUpperCase();'><br>\n");
+            out.println("Prenom de l'enseignant <input type=\"text\" name=\"prenom_enseignant\" value='"+prenomEnseignantH+"' onchange='javascript:this.value=this.value.toUpperCase();'><br>\n");
+            out.println("date de Creneau <input type=\"date\" name=\"date\" value='"+dateCreneauH+"'><br>\n");
+            out.println("heure de début <input type=\"text\"  name=\"heureDebut\" value='"+heureDebutH+"' ><br>\n");
+            out.println(" heure de fin <input type=\"text\"  name=\"heureFin\" value='"+heureFinH+"'><br>\n");
+            out.println("nombre d'éleves maximum <input type=\"text\" name=\"nbMax\" value='"+nbEleveMaxH+"'><br>\n");
+            out.println("<input type=\"submit\" value=\"Suivant\">\n");
+            out.println("<input type=\"reset\" value=\"Effacer\">\n");
+            
+            out.println("</form>");
+            out.println("</body>");
+            out.println("</html>");
             conn.close();
         }catch(SQLException ex){
             // On logge un message sur le serveur d'applicatiob

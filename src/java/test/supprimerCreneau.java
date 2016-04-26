@@ -66,6 +66,7 @@ public class supprimerCreneau extends HttpServlet {
             out.println("</head>");
             
             out.println("<body>");
+            out.println("<center>");
             out.println("<h1>liste des créneau</h1>");
             
             out.println("<table border=\"1\">");
@@ -120,7 +121,8 @@ public class supprimerCreneau extends HttpServlet {
             out.println("<form method='post' action='gererCreneau.html'>");
             out.println("<input type='submit' name='retourner' value='retourner'>");
             out.println("</form>");
-            
+            out.println("</center>");
+
             out.println("</body>");
             out.println("</html>");
             rs.close();

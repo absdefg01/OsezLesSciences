@@ -66,6 +66,8 @@ public class modifierCreneau extends HttpServlet {
             out.println("</head>");
             
             out.println("<body>");
+            out.println("<center>");
+
             out.println("<h1>liste des créneau</h1>");
             
             out.println("<table border=\"1\">");
@@ -107,7 +109,7 @@ public class modifierCreneau extends HttpServlet {
                     out.println("<td>"+nomEnseignantH+"</td>");
                     out.println("<td>"+prenomEnseignantH+"</td>");
                     out.println("<form method='post' action='confirmModifier'>");
-                    out.println("<td><INPUT type='checkbox' name='choix1' value='1'></td>");
+                    out.println("<td><INPUT type='checkbox' name='choix1' value='"+idCreneauH+"'></td>");
 
                 out.println("</tr>");
                 }
@@ -120,6 +122,7 @@ public class modifierCreneau extends HttpServlet {
             out.println("<form method='post' action='gererCreneau.html'>");
             out.println("<input type='submit' name='retourner' value='retourner'>");
             out.println("</form>");
+            out.println("</center>");
             
             out.println("</body>");
             out.println("</html>");
