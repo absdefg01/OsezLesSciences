@@ -9,6 +9,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -24,8 +26,8 @@ public class confirmInscription extends HttpServlet {
     public static final String VUE = "/WEB-INF/choisirCreneauEtu.jsp";
     public static final String ATT_ERREURS  = "erreurs";
     public static final String ATT_RESULTAT = "resultat";
-
-    // On définit la configuration d'accès au serveur SQL
+    
+    // On dÃ©finit la configuration d'acces au serveur SQL
     
     private static final String URL = "jdbc:mysql://localhost:3306/osezlessciences";
     private static final String USERNAME = "root";
@@ -46,7 +48,7 @@ public class confirmInscription extends HttpServlet {
         String resultat;
         Map<String, String> erreurs = new HashMap<String, String>();
         
-        /* Récupération des champs du formulaire. */
+        /* RÃ©cupÃ¨ration des champs du formulaire. */
         String prenom = request.getParameter("prenom");
         String nom = request.getParameter("nom");
         String mail = request.getParameter("mail");
@@ -81,19 +83,36 @@ public class confirmInscription extends HttpServlet {
             erreurs.put("mdp", e.getMessage());
         }
         
-        /* Initialisation du résultat global de la validation. */
+        /* Initialisation du rÃ©sultat global de la validation. */
         if (erreurs.isEmpty()) {
-            resultat = "Succès de l'inscription.";
+            resultat = "SuccÃ¨s de l'inscription.";
+            
+            /* Chargement du driver JDBC pour MySQL */
+            try {
+                Class.forName( "com.mysql.jdbc.Driver" );
+                
+            } catch ( ClassNotFoundException e ) {}
+            
+            try {
+                connexion = DriverManager.getConnection( URL, USERNAME, PASSWORD );
+                
+                /* CrÃ©ation de l'objet gÃ©rant les requÃªtes */
+                statement = connexion.createStatement();
+                
+                statement.executeUpdate( "INSERT INTO Eleve VALUES (NULL, '"+nom+"', '"+prenom+"', '"+mail+"', MD5('"+mdp+"'));" );
+            } catch (SQLException ex) {
+                Logger.getLogger(confirmInscription.class.getName()).log(Level.SEVERE, null, ex);
+            }
             
         } else {
-            resultat = "Échec de l'inscription.";
+            resultat = "Echec de l'inscription.";
         }
         
-        /* Stockage du résultat et des messages d'erreur dans l'objet request */
+        /* Stockage du rÃ©sultat et des messages d'erreur dans l'objet request */
         request.setAttribute(ATT_ERREURS, erreurs);
         request.setAttribute(ATT_RESULTAT, resultat);
 
-        /* Transmission de la paire d'objets request/response à notre JSP */
+        /* Transmission de la paire d'objets request/response Ã  notre JSP */
         this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );
     }
     
@@ -101,7 +120,7 @@ public class confirmInscription extends HttpServlet {
      * Valide le nom.
      */
     private void validationNom(String nom) throws Exception {
-        if ( nom == null) {
+        if ( nom == null || nom.trim().length() == 0) {
             throw new Exception("Merci de saisir un nom.");
         }
     }
@@ -110,7 +129,7 @@ public class confirmInscription extends HttpServlet {
      * Valide le prenom.
      */
     private void validationPrenom( String prenom ) throws Exception{
-        if ( prenom == null) {
+        if ( prenom == null || prenom.trim().length() == 0 ) {
             throw new Exception("Merci de saisir un prenom.");
         }
     }
@@ -134,9 +153,9 @@ public class confirmInscription extends HttpServlet {
     private void validationMotsDePasse(String motDePasse, String confirmation) throws Exception{
        if (motDePasse != null && motDePasse.trim().length() != 0 && confirmation != null && confirmation.trim().length() != 0) {
            if (!motDePasse.equals(confirmation)) {
-               throw new Exception("Les mots de passe entrés sont différents, merci de les saisir à nouveau.");
+               throw new Exception("Les mots de passe entrÃ©s sont diffÃ©rents, merci de les saisir Ã  nouveau.");
            } else if (motDePasse.trim().length() < 3) {
-               throw new Exception("Les mots de passe doivent contenir au moins 3 caractères.");
+               throw new Exception("Les mots de passe doivent contenir au moins 3 caractÃ¨res.");
            }
        } else {
            throw new Exception("Merci de saisir et confirmer votre mot de passe.");
