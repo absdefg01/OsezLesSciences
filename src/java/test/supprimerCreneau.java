@@ -28,8 +28,8 @@ import javax.servlet.http.HttpServletResponse;
 public class supprimerCreneau extends HttpServlet {
     // On définit la configuration d'accès au serveur SQL
     
-    private static final String URL = "jdbc:derby://localhost:1527/oserlessciences";
-    private static final String USERNAME = "mengzi";
+    private static final String URL = "jdbc:mysql://localhost:3306/osezlessciences";
+    private static final String USERNAME = "root";
     private static final String PASSWORD = "397949844";
     
     /**

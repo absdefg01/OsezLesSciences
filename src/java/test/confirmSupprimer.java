@@ -28,7 +28,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "confirmSupprimer", urlPatterns = {"/confirmSupprimer"})
 public class confirmSupprimer extends HttpServlet {
-    private static final String URL = "jdbc:derby://localhost:1527/oserlessciences";
+    private static final String URL = "jdbc:derby://localhost:1527/osezlessciences";
     private static final String USERNAME = "mengzi";
     private static final String PASSWORD = "397949844";
 
