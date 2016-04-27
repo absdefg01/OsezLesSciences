@@ -86,14 +86,41 @@ public class confirmModifier extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet DataBaseAccess</title>"); 
-            
+            out.println("<title>Modification des créneaux</title>"); 
+            out.println("<meta charset=\"utf-8\" />");
+            out.println("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n" +
+"		<link rel=\"stylesheet\" href=\"assets2/css/main.css\" />");
             out.println("</head>");
             
-            out.println("<body>");
-            out.println("<center>");
-
-            out.println("<h1>modifier des créneaux</h1>");
+            out.println("<body class=\"homepage\">\n");
+            
+            out.println("<div id=\"page-wrapper\">");
+            out.println("<div id=\"header-wrapper\">\n" +
+"					<header id=\"header\" class=\"container\">\n" +
+"						<!-- Logo -->\n" +
+"							<div id=\"logo\">\n" +
+"								<h1>Osez les sciences</h1>\n" +
+"                                                        </div>\n" +
+"						<!-- Nav -->\n" +
+"							<nav id=\"nav\">\n" +
+"								<ul>\n" +
+"									<li><a href=\"gererCreneau.html\">Gérer des créneaux</a></li>\n" +
+"									<li><a href=\"connexionAdmin.html\">Déconnectez vous</a></li>\n" +
+"								</ul>\n" +
+"							</nav>\n" +
+"					</header>\n" +
+"				</div>");
+            out.println("</div>");
+            
+            out.println("<!-- Main -->" +
+"				<div id=\"main-wrapper\">" +
+"					<div class=\"container\">" +
+                    "<div class=\"8u 12u(medium) important(medium)\">" +
+"								<!-- Content -->\n" +
+"                                                                <div id=\"content\" style=\"margin-left: 270px\">\n" +
+"										<section class=\"last\">\n"); 
+            
+            out.println("<h1 style='margin-left:130px'>modifier des créneaux</h1>");
             out.println("<form method=\"post\" action=\"confirmModifier2\">\n");
             
             out.println("Mention <SELECT name=\"mention\" size=\"1\">\n" +
@@ -108,14 +135,17 @@ public class confirmModifier extends HttpServlet {
             out.println("Matiere <input type=\"text\"  name=\"nom_matiere\"  value='"+nomMatiereH+"' onchange='javascript:this.value=this.value.toUpperCase();'><br>");
             out.println("Nom de l'enseignant <input type=\"text\" name=\"nom_enseignant\" value='"+nomEnseignantH+"'  onchange='javascript:this.value=this.value.toUpperCase();'><br>\n");
             out.println("Prenom de l'enseignant <input type=\"text\" name=\"prenom_enseignant\" value='"+prenomEnseignantH+"' onchange='javascript:this.value=this.value.toUpperCase();'><br>\n");
-            out.println("date de Creneau <input type=\"date\" name=\"date\" value='"+dateCreneauN+"'><br>\n");
+            out.println("date de Creneau <input type=\"date\" name=\"date\" value='"+dateCreneauN+"'><br><br>\n");
             out.println("heure de début <input type=\"text\"  name=\"heureDebut\" value='"+heureDebutH+"' ><br>\n");
             out.println(" heure de fin <input type=\"text\"  name=\"heureFin\" value='"+heureFinH+"'><br>\n");
             out.println("nombre d'éleves maximum <input type=\"text\" name=\"nbMax\" value='"+nbEleveMaxH+"'><br>\n");
-            out.println("<input type=\"submit\" value=\"Suivant\">\n");
+            out.println("<input type=\"submit\" value=\"Suivant\" style='margin-left:45px'>\n");
             out.println("<input type=\"reset\" value=\"Effacer\">\n");
             
             out.println("</form>");
+            
+            out.println("</section></div></div></div></div></div>");
+
             out.println("</body>");
             out.println("</html>");
             conn.close();

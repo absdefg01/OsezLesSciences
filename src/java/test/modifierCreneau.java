@@ -140,7 +140,7 @@ public class modifierCreneau extends HttpServlet {
 "					<nav id=\"nav\">\n" +
 "						<ul>\n" +
 "							<li><a href=\"gererCreneau.html\">Gérer des créneaux</a></li>\n" +
-"							<li><a href=\"#\">Déconnectez-vous</a></li>\n" +
+"							<li><a href=\"connexionAdmin.html\">Déconnectez-vous</a></li>\n" +
 "						</ul>\n" +
 "					</nav>\n" +
 "				<!-- Copyright -->\n" +

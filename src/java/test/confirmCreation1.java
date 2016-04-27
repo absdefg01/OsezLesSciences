@@ -344,13 +344,7 @@ public class confirmCreation1 extends HttpServlet {
             out.println("<input type='submit' name='retourner' value='retourner'>");
             out.println("</form>");
             
-										out.println("</section>\n" +
-"									</div>\n" +
-"\n" +
-"							</div>\n" +
-"						</div>\n" +
-"					</div>\n" +
-"				</div>");
+            out.println("</section></div></div></div></div></div>");
             
             
             out.println("</body>");
