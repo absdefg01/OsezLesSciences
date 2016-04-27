@@ -37,6 +37,10 @@ body {
 label{
     margin-bottom: 2px;
     display: block;
-    width: 150px;
+    width: 200px;
     float: left;
+}
+
+.erreur{
+    color:red;
 }
