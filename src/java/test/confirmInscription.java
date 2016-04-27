@@ -9,8 +9,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -26,8 +24,8 @@ public class confirmInscription extends HttpServlet {
     public static final String VUE = "/WEB-INF/choisirCreneauEtu.jsp";
     public static final String ATT_ERREURS  = "erreurs";
     public static final String ATT_RESULTAT = "resultat";
-    
-    // On définit la configuration d'acces au serveur SQL
+
+    // On définit la configuration d'accès au serveur SQL
     
     private static final String URL = "jdbc:mysql://localhost:3306/osezlessciences";
     private static final String USERNAME = "root";
@@ -48,7 +46,7 @@ public class confirmInscription extends HttpServlet {
         String resultat;
         Map<String, String> erreurs = new HashMap<String, String>();
         
-        /* Récupèration des champs du formulaire. */
+        /* Récupération des champs du formulaire. */
         String prenom = request.getParameter("prenom");
         String nom = request.getParameter("nom");
         String mail = request.getParameter("mail");
@@ -86,26 +84,8 @@ public class confirmInscription extends HttpServlet {
         /* Initialisation du résultat global de la validation. */
         if (erreurs.isEmpty()) {
             resultat = "Succès de l'inscription.";
-            
-            /* Chargement du driver JDBC pour MySQL */
-            try {
-                Class.forName( "com.mysql.jdbc.Driver" );
-                
-            } catch ( ClassNotFoundException e ) {}
-            
-            try {
-                connexion = DriverManager.getConnection( URL, USERNAME, PASSWORD );
-                
-                /* Création de l'objet gérant les requêtes */
-                statement = connexion.createStatement();
-                
-                statement.executeUpdate( "INSERT INTO Eleve VALUES (NULL, '"+nom+"', '"+prenom+"', '"+mail+"', MD5('"+mdp+"'));" );
-            } catch (SQLException ex) {
-                Logger.getLogger(confirmInscription.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
         } else {
-            resultat = "Echec de l'inscription.";
+            resultat = "Échec de l'inscription.";
         }
         
         /* Stockage du résultat et des messages d'erreur dans l'objet request */
@@ -120,7 +100,7 @@ public class confirmInscription extends HttpServlet {
      * Valide le nom.
      */
     private void validationNom(String nom) throws Exception {
-        if ( nom == null || nom.trim().length() == 0) {
+        if ( nom == null) {
             throw new Exception("Merci de saisir un nom.");
         }
     }
@@ -129,7 +109,7 @@ public class confirmInscription extends HttpServlet {
      * Valide le prenom.
      */
     private void validationPrenom( String prenom ) throws Exception{
-        if ( prenom == null || prenom.trim().length() == 0 ) {
+        if ( prenom == null) {
             throw new Exception("Merci de saisir un prenom.");
         }
     }

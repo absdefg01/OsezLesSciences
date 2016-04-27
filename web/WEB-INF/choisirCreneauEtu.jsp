@@ -21,28 +21,18 @@
             
             <form id="inscriptionForm" method="post" action="confirmInscription">
                 
-                <label for="prenom"> Prénom : </label>
-                <input type="text" id="prenom" name="prenom" value="" maxlength="20" />
+                <label for="prenom"> Prénom : </label><input type="text" id="prenom">
                 <span class="erreur">${erreurs['prenom']}</span><br>
-                
-                <label for="nom">Nom : </label>
-                <input type="text" id="nom" name="nom" value="" maxlength="20" />
+                <label for="nom">Nom : </label><input type="text" id="nom">
                 <span class="erreur">${erreurs['nom']}</span><br>
                 
-                <label for="mail">Adresse mail : </label>
-                <input type="text" id="mail" name="mail" value="" maxlength="60" />
+                <label for="mail">Adresse mail : </label><input type="text" id="mail">
                 <span class="erreur">${erreurs['mail']}</span><br>
-                
-                <label for="mdp">Mot de passe : </label>
-                <input type="password" id="mdp" name="mdp" maxlength="20">
+                <label for="mdp">Mot de passe : </label><input type="password" id="mdp">
                 <span class="erreur">${erreurs['mdp']}</span><br>
+                <label for="confirmation">Confirmer le mot de passe : </label><input type="password" id="confirmation"><br>
                 
-                <label for="confirmation">Confirmer le mot de passe : </label>
-                <input type="password" id="confirmation" name="confirmation" maxlength="20"><br>
-                
-                <input type="submit" value="Valider"><br>
-                
-                <p class="${empty erreurs ? 'succes' : 'erreur'}">${resultat}</p>
+                <input type="submit" value="Valider">
             </form>
         </div>
     </body>
