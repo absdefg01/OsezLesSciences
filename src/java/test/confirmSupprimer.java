@@ -52,7 +52,9 @@ public class confirmSupprimer extends HttpServlet {
             out.println("<html>");
             out.println("<head>");
             out.println("<title>Supression</title>"); 
-            
+            out.println("<meta charset=\"utf-8\" />\n" +
+"		<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n" +
+"		<link rel=\"stylesheet\" href=\"assets4/css/main.css\" />");
             out.println("</head>");
             
             out.println("<body>");

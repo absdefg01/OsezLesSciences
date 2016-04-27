@@ -261,23 +261,50 @@ public class confirmCreation1 extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet DataBaseAccess</title>");            
+            out.println("<title>Liste des créneaux</title>"); 
+            out.println("<meta charset=\"utf-8\" />");
+            out.println("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n" +
+"		<link rel=\"stylesheet\" href=\"assets2/css/main.css\" />");
             out.println("</head>");
             
-            out.println("<body>");
-            out.println("<h1>liste des créneau</h1>");
+            out.println("<body class=\"homepage\">\n");
+            out.println("<div id=\"page-wrapper\">");
+            out.println("<div id=\"header-wrapper\">\n" +
+"					<header id=\"header\" class=\"container\">\n" +
+"						<!-- Logo -->\n" +
+"							<div id=\"logo\">\n" +
+"								<h1>Osez les sciences</h1>\n" +
+"                                                        </div>\n" +
+"						<!-- Nav -->\n" +
+"							<nav id=\"nav\">\n" +
+"								<ul>\n" +
+"									<li><a href=\"gererCreneau.html\">Gérer des créneaux</a></li>\n" +
+"									<li><a href=\"connexionAdmin.html\">Déconnectez vous</a></li>\n" +
+"								</ul>\n" +
+"							</nav>\n" +
+"					</header>\n" +
+"				</div>");
+            out.println("</div>");
             
-            out.println("<table border=\"1\">");
-                out.println("<tr>");
-                    out.println("<th>IdCreneau</th>");
-                    out.println("<th>Date</th>");
-                    out.println("<th>HeureDebut</th>");
-                    out.println("<th>HeureFin</th>");
-                    out.println("<th>NbEleveMax</th>");
-                    out.println("<th>Matiere</th>");
-                    out.println("<th>NomEnseignant</th>");
-                    out.println("<th>PreomEnseignant</th>");
-//                    out.println("<th>case à cocher</th>");
+            out.println("<!-- Main -->" +
+"				<div id=\"main-wrapper\">" +
+"					<div class=\"container\">" +
+                    "<div class=\"8u 12u(medium) important(medium)\">" +
+"								<!-- Content -->\n" +
+"                                                                <div id=\"content\" style=\"margin-left: 170px\">\n" +
+"										<section class=\"last\">\n"); 
+	out.println("<h1 style='margin-left:280px'>liste des créneau</h1>");
+            
+            out.println("<table border='2' align='center' cellpadding='15' cellspacing='10' width='150%'>");
+                out.println("<tr style='border:solid;'>");
+                    out.println("<th style='border:solid;' align='center'>IdCreneau</th>");
+                    out.println("<th style='border:solid;'>Date</th>");
+                    out.println("<th style='border:solid;'>HeureDebut</th>");
+                    out.println("<th style='border:solid;'>HeureFin</th>");
+                    out.println("<th style='border:solid;'>NbEleveMax</th>");
+                    out.println("<th style='border:solid;'>Matiere</th>");
+                    out.println("<th style='border:solid;'>NomEnseignant</th>");
+                    out.println("<th style='border:solid;'>PreomEnseignant</th>");
                 out.println("</tr>");
 
                 //obtenir les colonne de créneau
@@ -296,30 +323,29 @@ public class confirmCreation1 extends HttpServlet {
                     String nomEnseignantH = rs.getString(12);
                     String prenomEnseignantH = rs.getString(13);
 
-                out.println("<tr>");
-                    out.println("<td>"+idCreneauH+"</td>");
-                    out.println("<td>"+dateCreneauH+"</td>");
-                    out.println("<td>"+heureDebutH+"</td>");
-                    out.println("<td>"+heureFinH+"</td>");
-                    out.println("<td>"+nbEleveMaxH+"</td>");
-                    out.println("<td>"+nomMatiereH+"</td>");
-                    out.println("<td>"+nomEnseignantH+"</td>");
-                    out.println("<td>"+prenomEnseignantH+"</td>");
-                    
-                    
-//                    out.println("<td><INPUT type=\"checkbox\" name=\"choix1\" value=\"1\"></td>");
+                out.println("<tr style='border:solid;' align='center'>");
+                    out.println("<td style='border:solid;' align='center'>"+idCreneauH+"</td>");
+                    out.println("<td style='border:solid;' align='center'>"+dateCreneauH+"</td>");
+                    out.println("<td style='border:solid;' align='center'>"+heureDebutH+"</td>");
+                    out.println("<td style='border:solid;' align='center'>"+heureFinH+"</td>");
+                    out.println("<td style='border:solid;' align='center'>"+nbEleveMaxH+"</td>");
+                    out.println("<td style='border:solid;' align='center'>"+nomMatiereH+"</td>");
+                    out.println("<td style='border:solid;' align='center'>"+nomEnseignantH+"</td>");
+                    out.println("<td style='border:solid;' align='center'>"+prenomEnseignantH+"</td>");
                 out.println("</tr>");
                 }
             out.println("</table>");
-            
-            out.println("<form method='post' action='confirmModifier.java'>");
+            out.println("<form method='post' action='../OsezLesSciences/modifierCreneau' style='margin-left:260px;'>");
             out.println("<input type='submit' name='modifier' value='modifier'>");
             out.println("</form>");
+            out.println("<br>");
             
-            
-            out.println("<form method='post' action='gererCreneau.html'>");
+            out.println("<form method='post' action='gererCreneau.html' style='margin-left:255px;'>");
             out.println("<input type='submit' name='retourner' value='retourner'>");
             out.println("</form>");
+            
+            out.println("</section></div></div></div></div></div>");
+            
             
             out.println("</body>");
             out.println("</html>");
