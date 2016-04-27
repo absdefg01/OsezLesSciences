@@ -47,9 +47,8 @@ public class confirmSupprimer extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
         PrintWriter out = response.getWriter();  
-        
-        
-            out.println("<!DOCTYPE html>");
+         
+        out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
             out.println("<title>Supression</title>"); 
@@ -57,10 +56,11 @@ public class confirmSupprimer extends HttpServlet {
             out.println("</head>");
             
             out.println("<body>");
+            out.println("<center>");
             out.println("<form method='post' action='gererCreneau.html'>");
             out.println("<input type='submit' name='retourner' value='retourner'>");
             out.println("</form>");
-            
+            out.println("</center>");
             out.println("</body>");
             out.println("</html>");
             

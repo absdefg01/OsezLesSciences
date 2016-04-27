@@ -7,13 +7,13 @@ package test;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import static java.lang.String.format;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -29,8 +29,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author zhaomengzi
  */
-@WebServlet(name = "confirmModifier", urlPatterns = {"/confirmModifier"})
-public class confirmModifier extends HttpServlet {
+@WebServlet(name = "confirmModifier2", urlPatterns = {"/confirmModifier2"})
+public class confirmModifier2 extends HttpServlet {
     private static final String URL = "jdbc:derby://localhost:1527/oserlessciences";
     private static final String USERNAME = "mengzi";
     private static final String PASSWORD = "397949844";
@@ -49,76 +49,100 @@ public class confirmModifier extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
-        PrintWriter out = response.getWriter();  
+        PrintWriter out = response.getWriter(); 
         
         try{
             //On se connecte au serveur
             Connection conn = DriverManager.getConnection(URL,USERNAME,PASSWORD);
             //On prépare une requête SQL
             Statement stmt = conn.createStatement();
-            
-            //checkbox contient l   'idCreneau
-            String[] checkbox = request.getParameterValues("choix1");
-            int value = Integer.parseInt(checkbox[0]);
-            ResultSet rs = stmt.executeQuery("SELECT * FROM  creneau c INNER JOIN  matiere m ON c.IDMATIERE = m.IDMATIERE inner join enseignant e on c.IDENSEIGNANT = e.IDENSEIGNANT where c.IDCRENEAU = cast('"+value+"' as Integer)");
-            rs.next();
-            
-            String idCreneauH = rs.getString(1);
-            String nomMatiereH = rs.getString(9);
-            String nomEnseignantH = rs.getString(12);
-            String prenomEnseignantH = rs.getString(13);
-            String dateCreneauH = rs.getString(2);
-            String heureDebutH = rs.getString(3);
-            String heureFinH = rs.getString(4);
-            String nbEleveMaxH = rs.getString(5);
+            String id = request.getParameter("id");
+            String mention = request.getParameter("mention");
+            String nomMatiere = request.getParameter("nom_matiere");
+            String nomEnseignant = request.getParameter("nom_enseignant");
+            String prenomEnseignant = request.getParameter("prenom_enseignant");
+            String date = request.getParameter("date");
+            String heureDebut = request.getParameter("heureDebut");
+            String heureFin = request.getParameter("heureFin");
+            String nbMax = request.getParameter("nbMax");
             
             
-            Date date = null;
+            //transtypage de date en sql date
+            Date dateC = null;
+            java.sql.Date dateSql;
             try {
-                date = new SimpleDateFormat("yy-mm-dd").parse(dateCreneauH);
+                dateC = new SimpleDateFormat("dd-mm-yy").parse(date);
+                
             } catch (ParseException ex) {
-                Logger.getLogger(confirmModifier.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(confirmCreation1.class.getName()).log(Level.SEVERE, null, ex);
             }
+            dateSql = new java.sql.Date(dateC.getTime());   
             
-	    SimpleDateFormat format = new SimpleDateFormat("dd-M-yyyy");
-            String dateCreneauN = format.format(date);
-           
+            //transtypage de time en sql time
+            Date date1 = null;
+            Date date2 = null;
+            try {
+                date1 = new SimpleDateFormat("HH:mm").parse(heureDebut);
+                date2 = new SimpleDateFormat("HH:mm").parse(heureFin);
+            }
+            catch (ParseException e) {
+                request.setAttribute("time_error", "Please enter time in format HH:mm");
+            } 
+            java.sql.Time time1 = new Time(date1.getTime());
+            java.sql.Time time2 = new Time(date2.getTime());
+            
+            //transtypage de nbEleveMax en int
+            int nbM = Integer.parseInt(nbMax);
+            
+            
+            //transtypage de idCréneau en int
+            int idCreneau = Integer.parseInt(id);
+            
+            //obtenir l'idEnseignant
+            ResultSet rs = stmt.executeQuery("select *"
+                            + "from enseignant "
+                            + "where upper(nomEnseignant) = upper('"+nomEnseignant+"')"
+                            + "and upper(prenomEnseignant) = upper('"+prenomEnseignant+"')");
+            rs.next();
+            int idEnseignant = rs.getInt(1);
+            
+            //obtenir l'idMatiere
+            rs = stmt.executeQuery("select *"
+                            + "from matiere "
+                            + "where upper(nomMatiere) = upper('"+nomMatiere+"')");
+            rs.next();
+            int idMatiere = rs.getInt(1);
+
+            //obtenir idMention
+            rs = stmt.executeQuery("select * from mention where nomMention = '"+mention+"'");
+            rs.next();
+            int idMention = rs.getInt(1);
+
+            
+             PreparedStatement editStatement = conn.prepareStatement(
+                        "update creneau set dateCreneau = ?, heureDebut = ?, heureFin = ?, nbEleveMax = ?, idMatiere = ?, idEnseignant = ? where idCreneau = ?");
+            editStatement.setDate(1, dateSql);
+            editStatement.setTime(2, time1);
+            editStatement.setTime(3, time2);
+            editStatement.setInt(4, nbM);
+            editStatement.setInt(5, idMatiere);
+            editStatement.setInt(6, idEnseignant);
+            editStatement.setInt(7, idCreneau);
+            
+            editStatement.executeUpdate();
+            editStatement.close();
+            
+            /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet DataBaseAccess</title>"); 
-            
+            out.println("<title>Servlet confirmModifier2</title>");            
             out.println("</head>");
-            
             out.println("<body>");
-            out.println("<center>");
-
-            out.println("<h1>modifier des créneaux</h1>");
-            out.println("<form method=\"post\" action=\"confirmModifier2\">\n");
-            
-            out.println("Mention <SELECT name=\"mention\" size=\"1\">\n" +
-"                <OPTION>Informatique</option>\n" +
-"                <OPTION>Mathématique</option>\n" +
-"                <OPTION>ElectroniqueEnergieélectriqueetAutomatique</OPTION>   \n" +
-"                <option>Physique - Chimie</option>\n" +
-"                <option>Science de la vie</option>\n" +
-"            </SELECT>\n" +
-"            <br>");
-            out.println("<input type='hidden' name='id' value='"+idCreneauH+"' >");
-            out.println("Matiere <input type=\"text\"  name=\"nom_matiere\"  value='"+nomMatiereH+"' onchange='javascript:this.value=this.value.toUpperCase();'><br>");
-            out.println("Nom de l'enseignant <input type=\"text\" name=\"nom_enseignant\" value='"+nomEnseignantH+"'  onchange='javascript:this.value=this.value.toUpperCase();'><br>\n");
-            out.println("Prenom de l'enseignant <input type=\"text\" name=\"prenom_enseignant\" value='"+prenomEnseignantH+"' onchange='javascript:this.value=this.value.toUpperCase();'><br>\n");
-            out.println("date de Creneau <input type=\"date\" name=\"date\" value='"+dateCreneauN+"'><br>\n");
-            out.println("heure de début <input type=\"text\"  name=\"heureDebut\" value='"+heureDebutH+"' ><br>\n");
-            out.println(" heure de fin <input type=\"text\"  name=\"heureFin\" value='"+heureFinH+"'><br>\n");
-            out.println("nombre d'éleves maximum <input type=\"text\" name=\"nbMax\" value='"+nbEleveMaxH+"'><br>\n");
-            out.println("<input type=\"submit\" value=\"Suivant\">\n");
-            out.println("<input type=\"reset\" value=\"Effacer\">\n");
-            
-            out.println("</form>");
+            out.println("<h1>Servlet confirmModifier2 at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
-            conn.close();
+            response.sendRedirect("../OsezLesSciences/modifierCreneau");
         }catch(SQLException ex){
             // On logge un message sur le serveur d'applicatiob
             Logger.getLogger(confirmConnexion.class.getName()).log(Level.SEVERE, null, ex);
