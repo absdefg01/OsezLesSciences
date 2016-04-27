@@ -61,26 +61,32 @@ public class modifierCreneau extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet DataBaseAccess</title>"); 
-            
+            out.println("<title>Modification des créneaux</title>"); 
+            out.println("<meta charset=\"utf-8\" />\n" +
+"		<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n" +
+"		<link rel=\"stylesheet\" href=\"assets3/css/main.css\" />");
             out.println("</head>");
             
             out.println("<body>");
-            out.println("<center>");
+            out.println("<div id=\"content\">\n" +
+"				<div class=\"inner\">");
 
-            out.println("<h1>liste des créneau</h1>");
+            out.println("<article class=\"box post post-excerpt\">\n" +
+"							<header>"
+                    + "                                         <h2>Liste des Créneaux</h2>\n" +
+"							</header>");
             
-            out.println("<table border=\"1\">");
-                out.println("<tr>");
-                    out.println("<th>IdCreneau</th>");
-                    out.println("<th>Date</th>");
-                    out.println("<th>HeureDebut</th>");
-                    out.println("<th>HeureFin</th>");
-                    out.println("<th>NbEleveMax</th>");
-                    out.println("<th>Matiere</th>");
-                    out.println("<th>NomEnseignant</th>");
-                    out.println("<th>PrenomEnseignant</th>");
-                    out.println("<th>case à cocher</th>");
+            out.println("<table border='2' align='center' cellpadding='15' cellspacing='10' width='150%'>");
+                out.println("<tr style='border:solid;'>");
+                    out.println("<th style='border:solid;' align='center'>IdCreneau</th>");
+                    out.println("<th style='border:solid;' align='center'>Date</th>");
+                    out.println("<th style='border:solid;' align='center'>HeureDebut</th>");
+                    out.println("<th style='border:solid;' align='center'>HeureFin</th>");
+                    out.println("<th style='border:solid;' align='center'>NbEleveMax</th>");
+                    out.println("<th style='border:solid;' align='center'>Matiere</th>");
+                    out.println("<th style='border:solid;' align='center'>NomEnseignant</th>");
+                    out.println("<th style='border:solid;' align='center'>PrenomEnseignant</th>");
+                    out.println("<th style='border:solid;' align='center'>case à cocher</th>");
                  out.println("</tr>");
                  
                  //obtenir les colonne de créneau
@@ -99,31 +105,56 @@ public class modifierCreneau extends HttpServlet {
                     String nomEnseignantH = rs.getString(12);
                     String prenomEnseignantH = rs.getString(13);
 
-                out.println("<tr>");
-                    out.println("<td>"+idCreneauH+"</td>");
-                    out.println("<td>"+dateCreneauH+"</td>");
-                    out.println("<td>"+heureDebutH+"</td>");
-                    out.println("<td>"+heureFinH+"</td>");
-                    out.println("<td>"+nbEleveMaxH+"</td>");
-                    out.println("<td>"+nomMatiereH+"</td>");
-                    out.println("<td>"+nomEnseignantH+"</td>");
-                    out.println("<td>"+prenomEnseignantH+"</td>");
+                out.println("<tr style='border:solid;'>");
+                    out.println("<td style='border:solid;' align='center'>"+idCreneauH+"</td>");
+                    out.println("<td style='border:solid;' align='center'>"+dateCreneauH+"</td>");
+                    out.println("<td style='border:solid;' align='center'>"+heureDebutH+"</td>");
+                    out.println("<td style='border:solid;' align='center'>"+heureFinH+"</td>");
+                    out.println("<td style='border:solid;' align='center'>"+nbEleveMaxH+"</td>");
+                    out.println("<td style='border:solid;' align='center'>"+nomMatiereH+"</td>");
+                    out.println("<td style='border:solid;' align='center'>"+nomEnseignantH+"</td>");
+                    out.println("<td style='border:solid;' align='center'>"+prenomEnseignantH+"</td>");
                     out.println("<form method='post' action='confirmModifier'>");
-                    out.println("<td><INPUT type='checkbox' name='choix1' value='"+idCreneauH+"'></td>");
+                    out.println("<td style='border:solid;' align='center'><INPUT type='checkbox' name='choix1' value='"+idCreneauH+"'></td>");
 
                 out.println("</tr>");
                 }
             out.println("</table>");
             
-            out.println("<input type='submit' name='modifier' value='modifier'>");
+            out.println("<input type='submit' name='modifier' value='modifier' style='margin-left:290px'>");
             out.println("</form>");
             
             
             out.println("<form method='post' action='gererCreneau.html'>");
-            out.println("<input type='submit' name='retourner' value='retourner'>");
+            out.println("<input type='submit' name='retourner' value='retourner' style='margin-left:285px'>");
             out.println("</form>");
-            out.println("</center>");
+            out.println("</div>"
+                    + "</div>");
             
+            out.println("<!-- Sidebar -->\n" +
+"			<div id=\"sidebar\">\n" +
+"\n" +
+"				<!-- Logo -->\n" +
+"					<h1 id=\"logo\"><a href=\"#\">Osez les Sciences</a></h1>\n" +
+"				<!-- Nav -->\n" +
+"					<nav id=\"nav\">\n" +
+"						<ul>\n" +
+"							<li><a href=\"gererCreneau.html\">Gérer des créneaux</a></li>\n" +
+"							<li><a href=\"#\">Déconnectez-vous</a></li>\n" +
+"						</ul>\n" +
+"					</nav>\n" +
+"				<!-- Copyright -->\n" +
+"					<ul id=\"copyright\">\n" +
+"						<li>&copy; ZHAO Mengzi WANG Li.</li>\n" +
+"					</ul>\n" +
+"			</div>\n" +
+"\n" +
+"		<!-- Scripts -->\n" +
+"			<script src=\"assets/js/jquery.min.js\"></script>\n" +
+"			<script src=\"assets/js/skel.min.js\"></script>\n" +
+"			<script src=\"assets/js/util.js\"></script>\n" +
+"			<!--[if lte IE 8]><script src=\"assets/js/ie/respond.min.js\"></script><![endif]-->\n" +
+"			<script src=\"assets/js/main.js\"></script>");
             out.println("</body>");
             out.println("</html>");
             rs.close();
