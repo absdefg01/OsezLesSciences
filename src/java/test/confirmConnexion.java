@@ -66,7 +66,7 @@ public class confirmConnexion extends HttpServlet {
                 response.setContentType("text/html");  
                 out.println("<script type=\"text/javascript\">");  
                 out.println("alert('Identifiants Incorrects!!');");  
-                out.println("window.location.href = '../OsezLesSciences/index.html';");
+                out.println("window.location.href = '../OsezLesSciences/connexionAdmin.html';");
                 out.println("</script>");
             }
             
