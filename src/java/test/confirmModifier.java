@@ -122,6 +122,8 @@ public class confirmModifier extends HttpServlet {
             
             out.println("<h1 style='margin-left:130px'>modifier des créneaux</h1>");
             out.println("<form method=\"post\" action=\"confirmModifier2\">\n");
+
+            
             
             out.println("Mention <SELECT name=\"mention\" size=\"1\">\n" +
 "                <OPTION>Informatique</option>\n" +
@@ -131,6 +133,7 @@ public class confirmModifier extends HttpServlet {
 "                <option>Science de la vie</option>\n" +
 "            </SELECT>\n" +
 "            <br>");
+            
             out.println("<input type='hidden' name='id' value='"+idCreneauH+"' >");
             out.println("Matiere <input type=\"text\"  name=\"nom_matiere\"  value='"+nomMatiereH+"' onchange='javascript:this.value=this.value.toUpperCase();'><br>");
             out.println("Nom de l'enseignant <input type=\"text\" name=\"nom_enseignant\" value='"+nomEnseignantH+"'  onchange='javascript:this.value=this.value.toUpperCase();'><br>\n");

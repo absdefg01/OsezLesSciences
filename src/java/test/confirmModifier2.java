@@ -54,7 +54,8 @@ public class confirmModifier2 extends HttpServlet {
         try{
             //On se connecte au serveur
             Connection conn = DriverManager.getConnection(URL,USERNAME,PASSWORD);
-            //On prépare une requête SQL
+            
+            //les données entrée dans la formulaire
             Statement stmt = conn.createStatement();
             String id = request.getParameter("id");
             String mention = request.getParameter("mention");
@@ -67,6 +68,9 @@ public class confirmModifier2 extends HttpServlet {
             String nbMax = request.getParameter("nbMax");
             
             
+            /**
+             * transtypage
+             */
             //transtypage de date en sql date
             Date dateC = null;
             java.sql.Date dateSql;
@@ -98,28 +102,103 @@ public class confirmModifier2 extends HttpServlet {
             //transtypage de idCréneau en int
             int idCreneau = Integer.parseInt(id);
             
-            //obtenir l'idEnseignant
-            ResultSet rs = stmt.executeQuery("select *"
-                            + "from enseignant "
+            
+            
+            /**
+             * enseignant
+             */
+            ResultSet rs = stmt.executeQuery("select count(*) as nb from enseignant "
                             + "where upper(nomEnseignant) = upper('"+nomEnseignant+"')"
                             + "and upper(prenomEnseignant) = upper('"+prenomEnseignant+"')");
             rs.next();
-            int idEnseignant = rs.getInt(1);
+            int nbEnseignantR = rs.getInt("nb");
             
-            //obtenir l'idMatiere
-            rs = stmt.executeQuery("select *"
-                            + "from matiere "
-                            + "where upper(nomMatiere) = upper('"+nomMatiere+"')");
-            rs.next();
-            int idMatiere = rs.getInt(1);
-
+            int idEnseignant = 0;
+            //si enseignant existe déjà dans BDD
+            if(nbEnseignantR > 0){
+                rs = stmt.executeQuery("select *"
+                                + "from enseignant "
+                                + "where upper(nomEnseignant) = upper('"+nomEnseignant+"')"
+                                + "and upper(prenomEnseignant) = upper('"+prenomEnseignant+"')");
+                rs.next();
+                idEnseignant = rs.getInt(1);
+            }else{
+                //si enseignant n'existe pas dans BDD
+                //ajouter nouveau enseignant dans BDD
+                PreparedStatement editStatement = conn.prepareStatement(
+                                "INSERT into Enseignant (nomEnseignant, prenomEnseignant)"
+                                        + "VALUES (?,?)",Statement.RETURN_GENERATED_KEYS);
+                
+                editStatement.setString(1, nomEnseignant);
+                editStatement.setString(2, prenomEnseignant);               
+                editStatement.executeUpdate();
+                editStatement.close();
+                
+                //retourner l'id d'enseignant
+                rs = stmt.executeQuery("select * from enseignant");
+                rs.next();
+                idEnseignant = rs.getInt(1);
+            
+            }
+            
+            /**
+             * mention
+             */
             //obtenir idMention
             rs = stmt.executeQuery("select * from mention where nomMention = '"+mention+"'");
             rs.next();
             int idMention = rs.getInt(1);
 
             
-             PreparedStatement editStatement = conn.prepareStatement(
+            /**
+             * matiere
+             */
+            rs = stmt.executeQuery("select count(*) as nb from matiere "
+                            + "where upper(nomMatiere) = upper('"+nomMatiere+"')");
+            rs.next();
+            int nbMatiereR = rs.getInt("nb");
+            int idMatiere = 0;
+            //si matiere existe déjà dans BDD
+            if(nbMatiereR > 0){
+                //obtenir l'idMatiere
+                rs = stmt.executeQuery("select *"
+                                + "from matiere "
+                                + "where upper(nomMatiere) = upper('"+nomMatiere+"')");
+                rs.next();
+                idMatiere = rs.getInt(1);
+                
+                PreparedStatement editStatement = conn.prepareStatement(
+                        "update matiere set idMention = ? where idMatiere = ?");
+                
+                editStatement.setInt(1, idMention);
+                editStatement.setInt(2, idMatiere);
+            
+                editStatement.executeUpdate();
+                editStatement.close();
+            
+                
+            }else{
+                //ajouter nouveau enseignant dans BDD
+                PreparedStatement editStatement = conn.prepareStatement(
+                                "INSERT into matiere(nomMatiere,idMention) VALUES (?,?)",Statement.RETURN_GENERATED_KEYS);
+                
+                editStatement.setString(1, nomMatiere);
+                editStatement.setInt(2, idMention);
+                editStatement.executeUpdate();
+                editStatement.close();
+                
+                rs = stmt.executeQuery("select * "
+                    + "from matiere "
+                        + "where upper(nomMatiere) = upper('"+nomMatiere+"')");
+                rs.next();
+                idMatiere = rs.getInt(1);
+            }
+            out.println(idMatiere);
+            
+            
+            
+            
+            PreparedStatement editStatement = conn.prepareStatement(
                         "update creneau set dateCreneau = ?, heureDebut = ?, heureFin = ?, nbEleveMax = ?, idMatiere = ?, idEnseignant = ? where idCreneau = ?");
             editStatement.setDate(1, dateSql);
             editStatement.setTime(2, time1);
@@ -131,6 +210,7 @@ public class confirmModifier2 extends HttpServlet {
             
             editStatement.executeUpdate();
             editStatement.close();
+            
             
             response.sendRedirect("../OsezLesSciences/modifierCreneau");
         }catch(SQLException ex){
