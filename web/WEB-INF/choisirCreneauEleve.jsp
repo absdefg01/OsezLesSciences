@@ -1,5 +1,5 @@
 <%-- 
-    Document   : choisirCreneauEtu
+    Document   : choisirCreneauEleve
     Created on : 24 avr. 2016, 14:34:11
     Author     : VIC
 --%>
@@ -19,30 +19,30 @@
 
             <div class="tabCreneaux"> A faire ...</div>
             
-            <form id="inscriptionForm" method="post" action="confirmInscription">
+            <form id="inscriptionForm" method="post" action="ConfirmInscription">
                 
                 <label for="prenom"> Prénom : </label>
                 <input type="text" id="prenom" name="prenom" value="" maxlength="20" />
-                <span class="erreur">${erreurs['prenom']}</span><br>
+                <span class="erreur">${form.erreurs['prenom']}</span><br>
                 
                 <label for="nom">Nom : </label>
                 <input type="text" id="nom" name="nom" value="" maxlength="20" />
-                <span class="erreur">${erreurs['nom']}</span><br>
+                <span class="erreur">${form.erreurs['nom']}</span><br>
                 
                 <label for="mail">Adresse mail : </label>
                 <input type="text" id="mail" name="mail" value="" maxlength="60" />
-                <span class="erreur">${erreurs['mail']}</span><br>
+                <span class="erreur">${form.erreurs['mail']}</span><br>
                 
                 <label for="mdp">Mot de passe : </label>
                 <input type="password" id="mdp" name="mdp" maxlength="20">
-                <span class="erreur">${erreurs['mdp']}</span><br>
+                <span class="erreur">${form.erreurs['mdp']}</span><br>
                 
                 <label for="confirmation">Confirmer le mot de passe : </label>
                 <input type="password" id="confirmation" name="confirmation" maxlength="20"><br>
                 
                 <input type="submit" value="Valider"><br>
                 
-                <p class="${empty erreurs ? 'succes' : 'erreur'}">${resultat}</p>
+                <p class="${empty form.erreurs ? 'succes' : 'erreur'}">${form.resultat}</p>
             </form>
         </div>
     </body>

@@ -15,9 +15,9 @@
     <div id="content">
         <h2>Faire sa demande : </h2>
 
-        <a href="ConfirmInscription">Choisir ses crÃ©neaux.</a> 
+        <a href="ConfirmInscription">Choisir ses créneaux.</a> 
 
-        <h2>J'ai dÃ©jÃ  fait ma demande : </h2>
+        <h2>J'ai déjà fait ma demande : </h2>
          
         <form id="eleveConnexionForm" method="post" action="CompteEleve">
             <label for="mail">Adresse mail : </label> <input type="text" id="mail" name="mail" value="" maxlength="60" />
@@ -27,7 +27,13 @@
             <span class="erreur">${form.erreurs['mdp']}</span><br>
                 
             <input type="submit" value="Valider"><br>
-                
+            
+            <%-- Vérification de la présence d'un objet utilisateur en session --%>
+            <c:if test="${!empty sessionScope.sessionUtilisateur}">
+                <%-- Si l'utilisateur existe en session, alors on affiche son adresse email. --%>
+                <p class="succes">Vous êtes connecté(e) avec l'adresse : ${sessionScope.sessionEleve.mail}</p>
+
+            </c:if>   
         </form>
          
         <h2>Connexion administrative </h2>
