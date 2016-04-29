@@ -44,3 +44,7 @@ label{
 .erreur{
     color:red;
 }
+
+.succes{
+    color: #090;
+}
