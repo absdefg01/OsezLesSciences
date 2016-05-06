@@ -34,14 +34,10 @@ public class confirmConnexion extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try {
-
-    Class.forName( "com.mysql.jdbc.Driver" );
-
-} catch ( ClassNotFoundException e ) {
-
-    /* Gérer les éventuelles erreurs ici. */
-
-}
+            Class.forName( "com.mysql.jdbc.Driver" );
+        } catch ( ClassNotFoundException e ) {
+            /* Gérer les éventuelles erreurs ici. */
+        }
         
         try {
             //On se connecte au serveur

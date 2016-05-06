@@ -65,7 +65,6 @@ public class confirmCreation1 extends HttpServlet {
             //On prépare une requête SQL
             Statement stmt = conn.createStatement();
 
-            
             /**
              * enseignant
              */
@@ -78,7 +77,7 @@ public class confirmCreation1 extends HttpServlet {
                             + "where upper(nomEnseignant) = upper('"+nom_enseignant+"')"
                             + "and upper(prenomEnseignant) = upper('"+prenom_enseignant+"')");
             rs.next();
-            
+
             
             //nb de prénom correspondants dans BDD
             int nbEnseignant = rs.getInt("nb");
@@ -191,15 +190,18 @@ public class confirmCreation1 extends HttpServlet {
             String timeDebut = request.getParameter("heureDebut");
             String timeFin = request.getParameter("heureFin");
             
+        
             Date date1 = null;
             Date date2 = null;
             try {
-                date1 = new SimpleDateFormat("HH:mm").parse(timeDebut);
-                date2 = new SimpleDateFormat("HH:mm").parse(timeFin);
+                date1 = new SimpleDateFormat("hh:mm:ss").parse(timeDebut);
+                date2 = new SimpleDateFormat("hh:mm:ss").parse(timeFin);
+                
             }
             catch (ParseException e) {
                 request.setAttribute("time_error", "Please enter time in format HH:mm");
             } 
+
             java.sql.Time time1 = new Time(date1.getTime());
             java.sql.Time time2 = new Time(date2.getTime());
             
@@ -235,11 +237,8 @@ public class confirmCreation1 extends HttpServlet {
             editStatement.setInt(6, idEnseignant);
             editStatement.executeUpdate();
             editStatement.close();
-//            response.sendRedirect("listeCreneau.jsp");
-//            RequestDispatcher dispatcher = request.getRequestDispatcher("listeCreneau.java");
-//            dispatcher.forward(request, response);
-            //On ferme la connection avec le serveur SQL
             
+
             
             
             /**
@@ -305,8 +304,8 @@ public class confirmCreation1 extends HttpServlet {
                 while(rs.next()){
                     String idCreneauH = rs.getString(1);
                     String dateCreneauH = rs.getString(2);
-                    String heureDebutH = rs.getString(3);
-                    String heureFinH = rs.getString(4);
+                    Time heureDebutH = rs.getTime(3);
+                    Time heureFinH = rs.getTime(4);
                     String nbEleveMaxH = rs.getString(5);
                     String nomMatiereH = rs.getString(9);
                     String nomEnseignantH = rs.getString(12);
@@ -334,7 +333,7 @@ public class confirmCreation1 extends HttpServlet {
             out.println("</form>");
             
             out.println("</section></div></div></div></div></div>");
-            
+      
             
             out.println("</body>");
             out.println("</html>");
