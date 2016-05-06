@@ -10,6 +10,17 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="stylesheet" href="assets2/css/main.css" />
+                    <script type="text/javascript">
+    function validateForm()
+    {
+        var a = document.getElementById('inp').value;
+    if (a=="")
+      {
+      alert("Veuillez remplir tous les champs !!");
+      return false;
+      }
+    }
+    </script>
 	</head>
 	<body class="homepage">
 		<div id="page-wrapper">
@@ -41,7 +52,7 @@
 										<section class="last">
 											<center>
                                                                                         <h1>Création des créneaux</h1>
-                                                                                        <form method="post" action="confirmCreation1">
+                                                                                        <form method="post" action="confirmCreation1" name="Form" onsubmit="return validateForm()">
                                                                                             Mention 
                                                                                             <SELECT name="mention" size="1">
                                                                                                 <OPTION>Informatique</option>
@@ -51,13 +62,13 @@
                                                                                                 <option>Science de la vie</option>
                                                                                             </SELECT>
                                                                                             <br>
-                                                                                            Matiere <input type="text"  name="nom_matiere" onchange='javascript:this.value=this.value.toUpperCase();'><br>
-                                                                                            Nom de l'enseignant <input type="text" name="nom_enseignant" onchange='javascript:this.value=this.value.toUpperCase();'><br>
-                                                                                            Prenom de l'enseignant <input type="text" name="prenom_enseignant" onchange='javascript:this.value=this.value.toUpperCase();'><br>
-                                                                                            date de Creneau (sous forme dd-mm-yyyy) <input type="date" name="date"> <br><br>
-                                                                                            heure de début (sous forme hh:mm:ss)<input type="text"  name="heureDebut"><br>
-                                                                                            heure de fin (sous forme hh:mm:ss)<input type="text"  name="heureFin"><br>
-                                                                                            nombre d'éleves maximum <input type="text" name="nbMax"><br>
+                                                                                            Matiere <input type="text" id="inp" name="nom_matiere" onchange='javascript:this.value=this.value.toUpperCase();'><br>
+                                                                                            Nom de l'enseignant <input type="text" id="inp" name="nom_enseignant" onchange='javascript:this.value=this.value.toUpperCase();'><br>
+                                                                                            Prenom de l'enseignant <input type="text" id="inp" name="prenom_enseignant" onchange='javascript:this.value=this.value.toUpperCase();'><br>
+                                                                                            date de Creneau (sous forme dd-mm-yyyy) <input type="date" id="inp" name="date"> <br><br>
+                                                                                            heure de début (sous forme hh:mm:ss)<input type="text" id="inp" name="heureDebut"><br>
+                                                                                            heure de fin (sous forme hh:mm:ss)<input type="text" id="inp" name="heureFin"><br>
+                                                                                            nombre d'éleves maximum <input type="text" id="inp" name="nbMax"><br>
                                                                                             <input type="submit" value="Suivant">
                                                                                             <input type="reset" value="Effacer">
                                                                                         </form>
