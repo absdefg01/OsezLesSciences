@@ -31,9 +31,10 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "confirmModifier", urlPatterns = {"/confirmModifier"})
 public class confirmModifier extends HttpServlet {
-    private static final String URL = "jdbc:derby://localhost:1527/osezlessciences";
-    private static final String USERNAME = "mengzi";
+    private static final String URL = "jdbc:mysql://localhost:3306/osezlessciences";
+    private static final String USERNAME = "root";
     private static final String PASSWORD = "397949844";
+    
     
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -50,6 +51,12 @@ public class confirmModifier extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
         PrintWriter out = response.getWriter();  
+        
+        try {
+            Class.forName( "com.mysql.jdbc.Driver" );
+        } catch ( ClassNotFoundException e ) {
+            /* Gérer les éventuelles erreurs ici. */
+        }
         
         try{
             //On se connecte au serveur

@@ -28,8 +28,8 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "confirmSupprimer", urlPatterns = {"/confirmSupprimer"})
 public class confirmSupprimer extends HttpServlet {
-    private static final String URL = "jdbc:derby://localhost:1527/osezlessciences";
-    private static final String USERNAME = "mengzi";
+    private static final String URL = "jdbc:mysql://localhost:3306/osezlessciences";
+    private static final String USERNAME = "root";
     private static final String PASSWORD = "397949844";
 
     /**
@@ -66,6 +66,11 @@ public class confirmSupprimer extends HttpServlet {
             out.println("</body>");
             out.println("</html>");
             
+        try {
+            Class.forName( "com.mysql.jdbc.Driver" );
+        } catch ( ClassNotFoundException e ) {
+            /* Gérer les éventuelles erreurs ici. */
+        }
             
         try{
             //On se connecte au serveur
