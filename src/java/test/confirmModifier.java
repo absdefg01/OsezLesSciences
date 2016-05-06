@@ -14,6 +14,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -67,7 +68,8 @@ public class confirmModifier extends HttpServlet {
             //checkbox contient l   'idCreneau
             String[] checkbox = request.getParameterValues("choix1");
             int value = Integer.parseInt(checkbox[0]);
-            ResultSet rs = stmt.executeQuery("SELECT * FROM  creneau c INNER JOIN  matiere m ON c.IDMATIERE = m.IDMATIERE inner join enseignant e on c.IDENSEIGNANT = e.IDENSEIGNANT where c.IDCRENEAU = cast('"+value+"' as Integer)");
+            out.println(value);
+            ResultSet rs = stmt.executeQuery("SELECT * FROM  creneau c INNER JOIN  matiere m ON c.IDMATIERE = m.IDMATIERE inner join enseignant e on c.IDENSEIGNANT = e.IDENSEIGNANT where c.IDCRENEAU = '"+value+"'");
             rs.next();
             
             String idCreneauH = rs.getString(1);
@@ -75,9 +77,10 @@ public class confirmModifier extends HttpServlet {
             String nomEnseignantH = rs.getString(12);
             String prenomEnseignantH = rs.getString(13);
             String dateCreneauH = rs.getString(2);
-            String heureDebutH = rs.getString(3);
-            String heureFinH = rs.getString(4);
+            Time heureDebutH = rs.getTime(3);
+            Time heureFinH = rs.getTime(4);
             String nbEleveMaxH = rs.getString(5);
+            
             
             
             Date date = null;
