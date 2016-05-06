@@ -63,7 +63,6 @@ public class confirmModifier2 extends HttpServlet {
             //les données entrée dans la formulaire
             Statement stmt = conn.createStatement();
             String id = request.getParameter("id");
-            String mention = request.getParameter("mention");
             String nomMatiere = request.getParameter("nom_matiere");
             String nomEnseignant = request.getParameter("nom_enseignant");
             String prenomEnseignant = request.getParameter("prenom_enseignant");
@@ -71,6 +70,8 @@ public class confirmModifier2 extends HttpServlet {
             String heureDebut = request.getParameter("heureDebut");
             String heureFin = request.getParameter("heureFin");
             String nbMax = request.getParameter("nbMax");
+            
+            
             
             
             /**
@@ -150,11 +151,15 @@ public class confirmModifier2 extends HttpServlet {
              * mention
              */
             //obtenir idMention
-            rs = stmt.executeQuery("select * from mention where nomMention = '"+mention+"'");
-            rs.next();
-            int idMention = rs.getInt(1);
-
+//            rs = stmt.executeQuery("select * from mention where nomMention = '"+mention+"'");
+//            rs.next();
+//            int idMention = rs.getInt(1);
             
+            rs = stmt.executeQuery("SELECT * FROM  creneau c INNER JOIN  matiere m ON c.IDMATIERE = m.IDMATIERE inner join enseignant e on c.IDENSEIGNANT = e.IDENSEIGNANT where c.IDCRENEAU = '"+idCreneau+"'");
+            rs.next();
+            int idMention = rs.getInt(10);
+//            out.println(idMention);
+
             /**
              * matiere
              */

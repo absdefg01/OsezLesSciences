@@ -68,7 +68,6 @@ public class confirmModifier extends HttpServlet {
             //checkbox contient l   'idCreneau
             String[] checkbox = request.getParameterValues("choix1");
             int value = Integer.parseInt(checkbox[0]);
-            out.println(value);
             ResultSet rs = stmt.executeQuery("SELECT * FROM  creneau c INNER JOIN  matiere m ON c.IDMATIERE = m.IDMATIERE inner join enseignant e on c.IDENSEIGNANT = e.IDENSEIGNANT where c.IDCRENEAU = '"+value+"'");
             rs.next();
             
@@ -80,7 +79,8 @@ public class confirmModifier extends HttpServlet {
             Time heureDebutH = rs.getTime(3);
             Time heureFinH = rs.getTime(4);
             String nbEleveMaxH = rs.getString(5);
-            
+            int idMention = rs.getInt(10);
+
             
             
             Date date = null;
@@ -134,15 +134,53 @@ public class confirmModifier extends HttpServlet {
             out.println("<form method=\"post\" action=\"confirmModifier2\">\n");
 
             
+//            String select1 = null;
+//            String select2 = null;
+//            String select3 = null;
+//            String select4 = null;
+//            String select5 = null;
+//            
+//            if(idMention == 1){
+//                select1 = "selected";
+//            }else{
+//                select1 = "";
+//            }
+//            if(idMention == 2){
+//                select2 = "selected";
+//            }else{
+//                select2 = "";
+//            }
+//            if(idMention == 3){
+//                select3 = "selected";
+//            }else{
+//                select3 = "";
+//            }
+//            if(idMention == 4){
+//                select4 = "selected";
+//            }else{
+//                select4 = "";
+//            }
+//            if(idMention == 5){
+//                select5 = "selected";
+//            }else{
+//                select5 = "";
+//            }
+//            out.println(select1);
+//            
+//            out.println(select2);
+//            out.println(select3);
+//            out.println(select4);
+//            out.println(select5);
+//
+//            out.println("Mention <SELECT name=\"mention\" size=\"1\">");
+//            out.println("<OPTION '"+select1+"'>Informatique</option>\n" +
+//"                <OPTION '"+select2+"'>Mathématique</option>\n" +
+//"                <OPTION '"+select3+"'>ElectroniqueEnergieélectriqueetAutomatique</OPTION>   \n" +
+//"                <option '"+select4+"'>Physique - Chimie</option>\n" +
+//"                <option '"+select5+"'>Science de la vie</option>\n" +
+//"            </SELECT>\n" +
+//"            <br>");
             
-            out.println("Mention <SELECT name=\"mention\" size=\"1\">\n" +
-"                <OPTION>Informatique</option>\n" +
-"                <OPTION>Mathématique</option>\n" +
-"                <OPTION>ElectroniqueEnergieélectriqueetAutomatique</OPTION>   \n" +
-"                <option>Physique - Chimie</option>\n" +
-"                <option>Science de la vie</option>\n" +
-"            </SELECT>\n" +
-"            <br>");
             
             out.println("<input type='hidden' name='id' value='"+idCreneauH+"' >");
             out.println("Matiere <input type=\"text\"  name=\"nom_matiere\"  value='"+nomMatiereH+"' onchange='javascript:this.value=this.value.toUpperCase();'><br>");

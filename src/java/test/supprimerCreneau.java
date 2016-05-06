@@ -12,6 +12,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Time;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -115,8 +116,8 @@ public class supprimerCreneau extends HttpServlet {
                 while(rs.next()){
                     String idCreneauH = rs.getString(1);
                     String dateCreneauH = rs.getString(2);
-                    String heureDebutH = rs.getString(3);
-                    String heureFinH = rs.getString(4);
+                    Time heureDebutH = rs.getTime(3);
+                    Time heureFinH = rs.getTime(4);
                     String nbEleveMaxH = rs.getString(5);
                     String nomMatiereH = rs.getString(9);
                     String nomEnseignantH = rs.getString(12);
