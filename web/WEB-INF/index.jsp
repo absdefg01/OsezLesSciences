@@ -19,21 +19,14 @@
 
         <h2>J'ai déjà fait ma demande : </h2>
          
-        <form id="eleveConnexionForm" method="post" action="CompteEleve">
-            <label for="mail">Adresse mail : </label> <input type="text" id="mail" name="mail" value="" maxlength="60" />
-            <span class="erreur">${form.erreurs['mail']}</span><br>
+        <form id="eleveConnexionForm" method="post" action="ConnexionEleve">
+            <label for="mail">Adresse mail : </label> <input type="text" id="mail" name="mail" value="" maxlength="60" /><br>
             
-            <label for="mdp">Mot de passe : </label> <input type="password" id="mdp" name="mdp" maxlength="20">
-            <span class="erreur">${form.erreurs['mdp']}</span><br>
+            <label for="mdp">Mot de passe : </label> <input type="password" id="mdp" name="mdp" maxlength="20"><br>
                 
             <input type="submit" value="Valider"><br>
             
-            <%-- Vérification de la présence d'un objet utilisateur en session --%>
-            <c:if test="${!empty sessionScope.sessionUtilisateur}">
-                <%-- Si l'utilisateur existe en session, alors on affiche son adresse email. --%>
-                <p class="succes">Vous êtes connecté(e) avec l'adresse : ${sessionScope.sessionEleve.mail}</p>
-
-            </c:if>   
+            <p> <span class="erreur">${form.erreurs['etat']}</span></p>
         </form>
          
         <h2>Connexion administrative </h2>

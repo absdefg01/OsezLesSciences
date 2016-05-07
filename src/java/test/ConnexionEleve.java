@@ -19,9 +19,10 @@ import javax.servlet.http.HttpSession;
  *
  * @author VIC
  */
-@WebServlet(name = "CompteEleve", urlPatterns = {"/CompteEleve"})
-public class CompteEleve extends HttpServlet {
-    public static final String VUE = "/WEB-INF/compteEleve.jsp";
+@WebServlet(name = "ConnexionEleve", urlPatterns = {"/ConnexionEleve"})
+public class ConnexionEleve extends HttpServlet {
+    public static final String VUE = "/WEB-INF/index.jsp";
+    public static final String URL_REDIRECTION = "CompteEleve";
     
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -47,7 +48,34 @@ public class CompteEleve extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );
+        /* Préparation de l'objet formulaire */
+        ConnexionEleveForm form = new ConnexionEleveForm();
+
+        /* Traitement de la requête et récupération du bean en résultant */
+        Eleve eleve = form.connecterEleve(request);
+
+        /* Récupération de la session depuis la requête */
+        HttpSession session = request.getSession();
+
+        /**
+         * Si aucune erreur de validation n'a eu lieu, alors ajout du bean
+         * Utilisateur à la session, sinon suppression du bean de la session.
+         */
+        if ( form.getErreurs().isEmpty() ) {
+            session.setAttribute( "sessionEleve", eleve );
+        } else {
+            session.setAttribute( "sessionEleve", null );
+        }
+
+        /* Stockage du formulaire et du bean dans l'objet request */
+        request.setAttribute( "form", form );
+        request.setAttribute( "eleve", eleve );
+        
+        if ( form.getErreurs().isEmpty() ) {
+            response.sendRedirect( URL_REDIRECTION );
+        }else{
+            this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );
+        }
     }
 
     /**
