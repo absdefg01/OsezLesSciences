@@ -16,7 +16,7 @@ import test.forms.InscriptionEleveForm;
  *
  * @author VIC
  */
-@WebServlet(name = "confirmInscription", urlPatterns = {"/ConfirmInscription"})
+@WebServlet(name = "ConfirmInscription", urlPatterns = {"/ConfirmInscription"})
 public class ConfirmInscription extends HttpServlet {
     public static final String VUE = "/WEB-INF/choisirCreneauEleve.jsp";
     

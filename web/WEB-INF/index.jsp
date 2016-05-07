@@ -15,9 +15,9 @@
     <div id="content">
         <h2>Faire sa demande : </h2>
 
-        <a href="ConfirmInscription">Choisir ses créneaux.</a> 
+        <a href="ConfirmInscription">Choisir ses crÃ©neaux.</a> 
 
-        <h2>J'ai déjà fait ma demande : </h2>
+        <h2>J'ai dÃ©jÃ  fait ma demande : </h2>
          
         <form id="eleveConnexionForm" method="post" action="ConnexionEleve">
             <label for="mail">Adresse mail : </label> <input type="text" id="mail" name="mail" value="" maxlength="60" /><br>
