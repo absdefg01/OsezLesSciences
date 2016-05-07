@@ -286,6 +286,7 @@ public class confirmCreation1 extends HttpServlet {
             out.println("<table border='2' align='center' cellpadding='15' cellspacing='10' width='150%'>");
                 out.println("<tr style='border:solid;'>");
                     out.println("<th style='border:solid;' align='center'>IdCreneau</th>");
+                    out.println("<th style='border:solid;'>Mention</th>");
                     out.println("<th style='border:solid;'>Date</th>");
                     out.println("<th style='border:solid;'>HeureDebut</th>");
                     out.println("<th style='border:solid;'>HeureFin</th>");
@@ -303,6 +304,7 @@ public class confirmCreation1 extends HttpServlet {
                     
                 while(rs.next()){
                     String idCreneauH = rs.getString(1);
+                    int Mention = rs.getInt(10);
                     String dateCreneauH = rs.getString(2);
                     Time heureDebutH = rs.getTime(3);
                     Time heureFinH = rs.getTime(4);
@@ -313,6 +315,7 @@ public class confirmCreation1 extends HttpServlet {
 
                 out.println("<tr style='border:solid;' align='center'>");
                     out.println("<td style='border:solid;' align='center'>"+idCreneauH+"</td>");
+                    out.println("<td style='border:solid;' align='center'>"+Mention+"</td>");
                     out.println("<td style='border:solid;' align='center'>"+dateCreneauH+"</td>");
                     out.println("<td style='border:solid;' align='center'>"+heureDebutH+"</td>");
                     out.println("<td style='border:solid;' align='center'>"+heureFinH+"</td>");

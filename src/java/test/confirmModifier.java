@@ -100,6 +100,17 @@ public class confirmModifier extends HttpServlet {
             out.println("<meta charset=\"utf-8\" />");
             out.println("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n" +
 "		<link rel=\"stylesheet\" href=\"assets2/css/main.css\" />");
+            out.println("<script type=\"text/javascript\">\n" +
+"    function validateForm()\n" +
+"    {\n" +
+"        var a = document.getElementById('inp').value;\n" +
+"    if (a==\"\")\n" +
+"      {\n" +
+"      alert(\"Veuillez remplir tous les champs !!\");\n" +
+"      return false;\n" +
+"      }\n" +
+"    }\n" +
+"    </script>");
             out.println("</head>");
             
             out.println("<body class=\"homepage\">\n");
@@ -131,7 +142,7 @@ public class confirmModifier extends HttpServlet {
 "										<section class=\"last\">\n"); 
             
             out.println("<h1 style='margin-left:130px'>modifier des créneaux</h1>");
-            out.println("<form method=\"post\" action=\"confirmModifier2\">\n");
+            out.println("<form method=\"post\" action=\"confirmModifier2\" onsubmit=\"return validateForm()\">\n");
 
             
 //            String select1 = null;
@@ -183,16 +194,14 @@ public class confirmModifier extends HttpServlet {
             
             
             out.println("<input type='hidden' name='id' value='"+idCreneauH+"' >");
-            out.println("Matiere <input type=\"text\"  name=\"nom_matiere\"  value='"+nomMatiereH+"' onchange='javascript:this.value=this.value.toUpperCase();'><br>");
-            out.println("Nom de l'enseignant <input type=\"text\" name=\"nom_enseignant\" value='"+nomEnseignantH+"'  onchange='javascript:this.value=this.value.toUpperCase();'><br>\n");
-            out.println("Prenom de l'enseignant <input type=\"text\" name=\"prenom_enseignant\" value='"+prenomEnseignantH+"' onchange='javascript:this.value=this.value.toUpperCase();'><br>\n");
-            out.println("date de Creneau <input type=\"date\" name=\"date\" value='"+dateCreneauN+"'><br><br>\n");
-            out.println("heure de début <input type=\"text\"  name=\"heureDebut\" value='"+heureDebutH+"' ><br>\n");
-            out.println(" heure de fin <input type=\"text\"  name=\"heureFin\" value='"+heureFinH+"'><br>\n");
-            out.println("nombre d'éleves maximum <input type=\"text\" name=\"nbMax\" value='"+nbEleveMaxH+"'><br>\n");
-            out.println("<input type=\"submit\" value=\"Suivant\" style='margin-left:45px'>\n");
-            out.println("<input type=\"reset\" value=\"Effacer\">\n");
-            
+            out.println("Matiere <input type=\"text\" id=\"inp\" name=\"nom_matiere\"  value='"+nomMatiereH+"' onchange='javascript:this.value=this.value.toUpperCase();'><br>");
+            out.println("Nom de l'enseignant <input type=\"text\" id=\"inp\" name=\"nom_enseignant\" value='"+nomEnseignantH+"'  onchange='javascript:this.value=this.value.toUpperCase();'><br>\n");
+            out.println("Prenom de l'enseignant <input type=\"text\" id=\"inp\" name=\"prenom_enseignant\" value='"+prenomEnseignantH+"' onchange='javascript:this.value=this.value.toUpperCase();'><br>\n");
+            out.println("date de Creneau <input type=\"date\" id=\"inp\" name=\"date\" value='"+dateCreneauN+"'><br><br>\n");
+            out.println("heure de début <input type=\"text\" id=\"inp\" name=\"heureDebut\" value='"+heureDebutH+"' ><br>\n");
+            out.println(" heure de fin <input type=\"text\" id=\"inp\" name=\"heureFin\" value='"+heureFinH+"'><br>\n");
+            out.println("nombre d'éleves maximum <input type=\"text\" id=\"inp\" name=\"nbMax\" value='"+nbEleveMaxH+"'><br>\n");
+            out.println("<input type=\"submit\" value=\"Suivant\" style='margin-left:90px'>\n");
             out.println("</form>");
             
             out.println("</section></div></div></div></div></div>");
