@@ -61,25 +61,46 @@ public class confirmValider extends HttpServlet {
             String[] checkbox = request.getParameterValues("choix1");
             int value = Integer.parseInt(checkbox[0]);
 
-            PreparedStatement editStatement = conn.prepareStatement(
-                                "update inscription\n" +
-"set validite = 1\n" +
-"where idCreneau = ?");
-                
-            editStatement.setInt(1, value);
-            editStatement.executeUpdate();
-            editStatement.close();
+            String valider = request.getParameter("Valider");
+            String idEleve = request.getParameter("idE");
+            String v = "Valider";
+            String r = "Rejeter";
             
-            
-            editStatement = conn.prepareStatement("update creneau\n" +
-"set nbEleveMax = nbEleveMax - 1\n" +
-"where idCreneau = ?");
-            editStatement.setInt(1, value);
-            editStatement.executeUpdate();
-            editStatement.close();
-            
-            response.sendRedirect("validerCreneau");
+            int idE = Integer.parseInt(idEleve);
 
+            if(valider.equals(v)){
+                PreparedStatement editStatement = conn.prepareStatement(
+                                    "update inscription\n" +
+    "set validite = 1\n" +
+    "where idCreneau = ?\n" +
+    "and idEleve = ?");
+
+                editStatement.setInt(1, value);
+                editStatement.setInt(2, idE);
+                editStatement.executeUpdate();
+                editStatement.close();
+
+
+                editStatement = conn.prepareStatement("update creneau\n" +
+    "set nbEleveMax = nbEleveMax - 1\n" +
+    "where idCreneau = ?");
+                editStatement.setInt(1, value);
+                editStatement.executeUpdate();
+                editStatement.close();
+                response.sendRedirect("validerCreneau");
+            }else{
+                PreparedStatement editStatement = conn.prepareStatement(
+                                    "delete from inscription\n" +
+    "where idCreneau = ?\n" +
+    "and idEleve = ?");
+
+                editStatement.setInt(1, value);
+                editStatement.setInt(2, idE);
+                editStatement.executeUpdate();
+                editStatement.close();
+                response.sendRedirect("validerCreneau");
+
+            }
             
         }catch(SQLException ex){
             // On logge un message sur le serveur d'applicatiob

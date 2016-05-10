@@ -96,7 +96,6 @@ public class validerCreneau extends HttpServlet {
 "                                                                <div id=\"content\" style=\"margin-left: 170px\">\n" +
 "										<section class=\"last\">\n"); 
 	out.println("<h1 style='margin-left:280px'>Liste des inscription</h1>");
-            
             out.println("<table border='2' align='center' cellpadding='15' cellspacing='10' width='150%'>");
                 out.println("<tr style='border:solid;'>");
                     out.println("<th style='border:solid;' align='center'>IDElève</th>");  
@@ -106,7 +105,6 @@ public class validerCreneau extends HttpServlet {
                     out.println("<th style='border:solid;' align='center'>HeureFin</th>");
                     out.println("<th style='border:solid;' align='center'>Places restantes</th>");
                     out.println("<th style='border:solid;' align='center'>case à cocher</th>");
-
                 out.println("</tr>");
 
                 //obtenir les colonne de créneau
@@ -132,22 +130,25 @@ public class validerCreneau extends HttpServlet {
                     out.println("<td style='border:solid;' align='center'>"+heureDebut+"</td>");
                     out.println("<td style='border:solid;' align='center'>"+heureFin+"</td>");
                     out.println("<td style='border:solid;' align='center'>"+nbReste+"</td>");
+                                
+
                     
                     out.println("<form method='post' action='confirmValider'>");
+                    out.println("<input type='hidden' name='idE' value='"+idEleve+"'>");
                     out.println("<td style='border:solid;' align='center'><INPUT type='checkbox' name='choix1' value='"+idCreneau+"'></td>");
 
                 out.println("</tr>");
+
                 }
             out.println("</table>");
             
             out.println("<input type='submit' name='Valider' value='Valider' style='margin-left:290px'><br><br>");
-            
+            out.println("<input type='submit' name='Valider' value='Rejeter' style='margin-left:290px'><br><br>");
+
             out.println("</form>");
             
+
             
-            out.println("<form method='post' action='confirmRejeter'>");
-            out.println("<input type='submit' name='Rejeter' value='Rejeter' style='margin-left:290px'><br><br>");
-            out.println("</form>");
 
             
             out.println("</section></div></div></div></div></div>");
