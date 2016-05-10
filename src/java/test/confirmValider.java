@@ -64,11 +64,22 @@ public class confirmValider extends HttpServlet {
             PreparedStatement editStatement = conn.prepareStatement(
                                 "update inscription\n" +
 "set validite = 1\n" +
-"where idEleve = ?");
+"where idCreneau = ?");
                 
             editStatement.setInt(1, value);
             editStatement.executeUpdate();
             editStatement.close();
+            
+            
+            editStatement = conn.prepareStatement("update creneau\n" +
+"set nbEleveMax = nbEleveMax - 1\n" +
+"where idCreneau = ?");
+            editStatement.setInt(1, value);
+            editStatement.executeUpdate();
+            editStatement.close();
+            
+            response.sendRedirect("validerCreneau");
+
             
         }catch(SQLException ex){
             // On logge un message sur le serveur d'applicatiob

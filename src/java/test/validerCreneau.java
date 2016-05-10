@@ -104,6 +104,7 @@ public class validerCreneau extends HttpServlet {
                     out.println("<th style='border:solid;' align='center'>NomMatiere</th>");
                     out.println("<th style='border:solid;' align='center'>HeureDebut</th>");
                     out.println("<th style='border:solid;' align='center'>HeureFin</th>");
+                    out.println("<th style='border:solid;' align='center'>Places restantes</th>");
                     out.println("<th style='border:solid;' align='center'>case à cocher</th>");
 
                 out.println("</tr>");
@@ -122,7 +123,7 @@ public class validerCreneau extends HttpServlet {
                     String nomMatiere = rs.getString(9);
                     Time heureDebut = rs.getTime(3);
                     Time heureFin = rs.getTime(4);
-                    
+                    int nbReste = rs.getInt(5);
 
                 out.println("<tr style='border:solid;' align='center'>");
                     out.println("<td style='border:solid;' align='center'>"+idEleve+"</td>");
@@ -130,16 +131,24 @@ public class validerCreneau extends HttpServlet {
                     out.println("<td style='border:solid;' align='center'>"+nomMatiere+"</td>");
                     out.println("<td style='border:solid;' align='center'>"+heureDebut+"</td>");
                     out.println("<td style='border:solid;' align='center'>"+heureFin+"</td>");
+                    out.println("<td style='border:solid;' align='center'>"+nbReste+"</td>");
+                    
                     out.println("<form method='post' action='confirmValider'>");
-                    out.println("<td style='border:solid;' align='center'><INPUT type='checkbox' name='choix1' value='"+idEleve+"'></td>");
+                    out.println("<td style='border:solid;' align='center'><INPUT type='checkbox' name='choix1' value='"+idCreneau+"'></td>");
 
                 out.println("</tr>");
                 }
             out.println("</table>");
             
             out.println("<input type='submit' name='Valider' value='Valider' style='margin-left:290px'><br><br>");
+            
             out.println("</form>");
             
+            
+            out.println("<form method='post' action='confirmRejeter'>");
+            out.println("<input type='submit' name='Rejeter' value='Rejeter' style='margin-left:290px'><br><br>");
+            out.println("</form>");
+
             
             out.println("</section></div></div></div></div></div>");
       
