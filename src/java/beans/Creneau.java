@@ -11,10 +11,29 @@ package beans;
  */
 public class Creneau {
     private String idCreneau;
-    private String dateCreneau;
+    private String jour;
+    private String heure;
     private String nbEleveMax;
     private String matiere;
     private String mention;
+    private boolean confirmation;
+
+    public boolean getConfirmation() {
+        return confirmation;
+    }
+
+    public void setConfirmation(boolean confirmation) {
+        this.confirmation = confirmation;
+    }
+
+    public String getHeure() {
+        return heure;
+    }
+
+    public void setHeure(String heure) {
+        this.heure = heure;
+    }
+
 
     public String getMention() {
         return mention;
@@ -34,11 +53,11 @@ public class Creneau {
     }
 
     public String getDateCreneau() {
-        return dateCreneau;
+        return jour;
     }
 
-    public void setDateCreneau(String dateCreneau) {
-        this.dateCreneau = dateCreneau;
+    public void setDateCreneau(String jour) {
+        this.jour = jour;
     }
 
     public String getNbEleveMax() {

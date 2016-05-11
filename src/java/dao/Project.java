@@ -27,7 +27,7 @@ public class Project {
     public ArrayList GetMessages(Connection connection,HttpServletRequest request,HttpServletResponse response) throws Exception{
         ArrayList creneauData = new ArrayList();
         try{
-            PreparedStatement ps = connection.prepareStatement("Select idCreneau,DATE_FORMAT(dateCreneau,'%a'), e.nomEnseignant, me.nomMention, ma.nomMatiere\n" +
+            PreparedStatement ps = connection.prepareStatement("Select idCreneau,DATE_FORMAT(dateCreneau,'%a'), Hour(heuredebut), e.nomEnseignant, me.nomMention, ma.nomMatiere\n" +
                                                                 "From Creneau c, Enseignant e,Matiere ma, Mention me \n" +
                                                                 "Where ma.idMatiere = c.idMatiere\n" +
                                                                 "And me.idMention = ma.idMention\n" +
@@ -37,9 +37,12 @@ public class Project {
                 Creneau creneau = new Creneau();
                 creneau.setIdCreneau(rs.getString(1));
                 creneau.setDateCreneau(rs.getString(2));
-                creneau.setEnseignant(rs.getString(3));
-                creneau.setMention(rs.getString(4));
-                creneau.setMatiere(rs.getString(5));
+                creneau.setHeure(rs.getString(3));
+                creneau.setEnseignant(rs.getString(4));
+                creneau.setMention(rs.getString(5));
+                creneau.setMatiere(rs.getString(6));
+                creneau.setConfirmation(false);
+                
                 creneauData.add(creneau);
             }
             return creneauData;

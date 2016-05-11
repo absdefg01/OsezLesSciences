@@ -21,7 +21,7 @@ public class ProjectManager {
     //Previous Post
     }
 
-    public ArrayList GetMessages(Connection connection, HttpServletRequest request,
+    public ArrayList GetCreneaux(Connection connection, HttpServletRequest request,
     HttpServletResponse response) throws Exception {
         ArrayList creneaux = null;
         try {

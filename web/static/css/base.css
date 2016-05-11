@@ -37,7 +37,7 @@ body {
 label{
     margin-bottom: 2px;
     display: block;
-    width: 200px;
+    width: 210px;
     float: left;
 }
 
@@ -48,3 +48,18 @@ label{
 .succes{
     color: #090;
 }
+
+				
+p#validation{
+text-align: center;
+}
+
+div.row{
+margin-top:50px;
+}
+
+table{
+border-style:double;
+}
+
+.heure{background-color:#D3D3D3;}
