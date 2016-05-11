@@ -27,7 +27,7 @@ public class confirmConnexion extends HttpServlet {
     
     private static final String URL = "jdbc:mysql://localhost:3306/osezlessciences";
     private static final String USERNAME = "root";
-    private static final String PASSWORD = "397949844";
+    private static final String PASSWORD = "";
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

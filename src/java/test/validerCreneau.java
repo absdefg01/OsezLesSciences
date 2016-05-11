@@ -29,7 +29,7 @@ import javax.servlet.http.HttpServletResponse;
 public class validerCreneau extends HttpServlet {
     private static final String URL = "jdbc:mysql://localhost:3306/osezlessciences";
     private static final String USERNAME = "root";
-    private static final String PASSWORD = "397949844";
+    private static final String PASSWORD = "";
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
