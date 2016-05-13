@@ -6,7 +6,7 @@ $(document).ready(function() {
 			
 			$("#choix").append(" <span class='badge'>"+nbchoisi+"</span>");
 			
-			jQuery.ajax({ // Recuperation de Données
+			jQuery.ajax({ // 1ERE ETAPE: RECUPERATION DE DONNÉES JSON
 				type:'GET', 
 				dataType:'json',
 				url:'GetCreneaux',
@@ -20,7 +20,11 @@ $(document).ready(function() {
 							nbcreneau++;
 							}              	
 					}
-				var nbchoix;		
+				var nbchoix;	
+                                
+                                
+                                	
+				// 2EME ETAPE: AFFICHAGE DS CRENEAUX DISPONIBLE DANS LE TABLEAU
 				for(i=0; i<data.length;i++){
 					var creneau=data[i].heure;  // recuperation de l'heure
 					var jour= data[i].jour;  // recuperation de la date

@@ -13,7 +13,7 @@
         
         
         <link href="static/bootstrap/css/bootstrap.css" type="text/css" rel="stylesheet">
-        <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+        <script src="static/js/jquery-latest.min.js"></script>
         <script src="static/bootstrap/js/bootstrap.min.js"></script>
         <script src="static/js/afficheCreneaux.js"></script>
         
@@ -30,11 +30,11 @@
 		<table class="table" > <!-- Tableau de proposition de Crénaux  -->
 			<tr>             <!-- Les jours dans la semaine  -->
 				<th>Horaire</th>
-				<th>Mon</th>  
-				<th>Tue</th>
-				<th>Wed</th>
-				<th>Thu</th>
-				<th>Fri</th>
+				<th>Lundi</th>  
+				<th>Mardi</th>
+				<th>Mercredi</th>
+				<th>Jeudi</th>
+				<th>Vendredi</th>
 			</tr>
 		
 			<tr id="1">
